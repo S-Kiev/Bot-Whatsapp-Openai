@@ -114,6 +114,7 @@ async function getTextUser (messages) {
     else {
         text = 'tipo de mensaje no valido';
     }
+    console.log(text);
     return text;
 }
 
