@@ -1,14 +1,15 @@
 const process = require('../shared/processMessage');
 const modelMessageWhatsapp = require('../shared/whatsappModels');
 const whatsappService = require('../services/whatsappService');
+const MetaAPIMedia = require('../services/Meta-API-Media');
+const whisper = require('../services/whisper-Service');
 const dotenv = require('dotenv');
 dotenv.config();
 //const whatsappService = require('../services/whatsappService');
 
 const verifyToken = (req, res) =>{
     try {
-        var accessToken = "TK-SaludEsteticaNaturalDev";
-        // process.env.WHATSAPP_WEBHOOK_KEY;
+        var accessToken = process.env.WHATSAPP_WEBHOOK_KEY;
         var token = req.query["hub.verify_token"];
         var challenge = req.query["hub.challenge"];
 
@@ -59,7 +60,7 @@ async function sendCode (req, res) {
     try { 
     var whatsappBotKey = req.body.whatsappBotKey;
 
-    if (whatsappBotKey === `EsteticaNatural`) {
+    if (whatsappBotKey === process.env.WHATSAPP_BOT_KEY) {
 
         var code = req.body.code;
         var number = req.body.number;
@@ -85,7 +86,7 @@ async function sendCode (req, res) {
     }
 }
 
-function getTextUser (messages) {
+async function getTextUser (messages) {
 
     var text = '';
     var typeMessage = messages['type'];
@@ -94,7 +95,18 @@ function getTextUser (messages) {
         text = (messages['text'])['body'];
     }
     else if(typeMessage == 'audio'){
-        // Llmar a Whisper para obtener la transcripcion
+
+        let idAudio = (messages['audio'])['id'];
+
+        let url = await MetaAPIMedia.getUrlMedia(idAudio);
+
+        let binaryAudio = await MetaAPIMedia.getBinaryAudio(url);
+
+        let transcription = await whisper.getTranscription(binaryAudio);
+
+        miConsola.log(transcription);
+
+        text = transcription
     }
     else {
         console.log('tipo de mensaje no valido');

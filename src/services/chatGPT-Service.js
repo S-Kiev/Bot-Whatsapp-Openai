@@ -5,8 +5,7 @@ dotenv.config();
 
 async function getMessageChatGPT (text) {
 
-    const openai = new OpenAI({
-      });
+    const openai = new OpenAI({});
 
       try {
         const chatCompletion = await openai.chat.completions.create({
