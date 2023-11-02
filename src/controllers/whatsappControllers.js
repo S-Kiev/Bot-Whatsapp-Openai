@@ -41,6 +41,9 @@ async function recivedMessage (req, res) {
         var text = getTextUser(messages);
 
         if (text != '') {
+            console.log(text);
+            console.log(number);
+
             await process.processMessage(text, number);
         } 
 

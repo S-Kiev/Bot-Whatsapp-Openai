@@ -8,7 +8,6 @@ async function processMessage(textUser, number) {
     var models = [];
 
     //#region MODELO BASICO DE BOT SIN IA
-
     /*
     if (textUser.includes('hola')) {
         var model = whatsappModel.messageText('hola, como estas?', number);
@@ -40,11 +39,10 @@ async function processMessage(textUser, number) {
     }
     //#endregion
     */
-
     //#region CON 
     
     const resultChatGPT = await chatGPT_Service.getMessageChatGPT(textUser);
-
+    console.log(resultChatGPT);
     if(resultChatGPT != null){
         var model = whatsappModel.messageText(resultChatGPT, number);
         models.push(model);
