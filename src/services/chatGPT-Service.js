@@ -6,7 +6,6 @@ dotenv.config();
 async function getMessageChatGPT (text) {
 
     const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
       });
 
       try {
