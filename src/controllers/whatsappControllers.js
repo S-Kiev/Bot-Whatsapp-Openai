@@ -104,7 +104,7 @@ async function getTextUser (messages) {
 
         let transcription = await whisper.getTranscription(binaryAudio);
 
-        miConsola.log(transcription);
+        console.log(transcription);
 
         text = transcription
     }
