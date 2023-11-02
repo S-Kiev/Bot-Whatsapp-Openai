@@ -72,7 +72,7 @@ async function sendCode (req, res) {
                 console.log(`Codigo enviado con exito`);
                 res.status(200).send({ message:`Codigo enviado con exito`});
             } catch (e) {
-                res.status(401).send({ message:'numero de telefono o codigo incorrectos'});
+                res.status(401).send({ message:'numero de telefono o código incorrectos'});
             }
         } else {
             res.status(401).send({ message:`Informacion proporcionada incorrecta \n codigo ${code} \n numero ${number}`});
