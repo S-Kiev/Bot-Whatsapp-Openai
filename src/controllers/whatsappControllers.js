@@ -109,7 +109,7 @@ async function getTextUser (messages) {
         text = transcription
     }
     else {
-        console.log('tipo de mensaje no valido');
+        text = 'tipo de mensaje no valido';
     }
     return text;
 }
