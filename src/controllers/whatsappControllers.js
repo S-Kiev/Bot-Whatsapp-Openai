@@ -38,7 +38,7 @@ async function recivedMessage (req, res) {
     if (typeof messageObject != 'undefined'){
         var messages = messageObject[0];
         var number = messages['from']; 
-        var text = getTextUser(messages);
+        var text = await getTextUser(messages);
 
         if (text != '') {
             console.log(text);
