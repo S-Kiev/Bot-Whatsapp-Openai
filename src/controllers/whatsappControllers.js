@@ -3,6 +3,7 @@ const modelMessageWhatsapp = require('../shared/whatsappModels');
 const whatsappService = require('../services/whatsappService');
 const MetaAPIMedia = require('../services/Meta-API-Media');
 const whisper = require('../services/whisper-Service');
+
 const dotenv = require('dotenv');
 dotenv.config();
 //const whatsappService = require('../services/whatsappService');

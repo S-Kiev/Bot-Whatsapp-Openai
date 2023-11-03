@@ -1,6 +1,7 @@
 const whatsappModel = require('../shared/whatsappModels');
 const whatsappService = require('../services/whatsappService');
 const chatGPT_Service = require('../services/chatGPT-Service');
+const { chatWithPDFs } = require('../services/embeddings/chatPDF/chatWithPDF');
 
 async function processMessage(textUser, number) {
 
@@ -40,17 +41,34 @@ async function processMessage(textUser, number) {
     //#endregion
     */
     //#region CON 
+
+    if (textUser.includes('consulta')){
+
+        const resultChatGPTWithEmbeddings = await chatWithPDFs(textUser);
+
+        if(resultChatGPTWithEmbeddings != null){
+            var model = whatsappModel.messageText(resultChatGPT, number);
+            models.push(model);
+        }
+        else {
+            var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
+            models.push(model);
+        }
+    } else {
+        
+        const resultChatGPT = await chatGPT_Service.getMessageChatGPT(textUser);
+
+        if(resultChatGPT != null){
+            var model = whatsappModel.messageText(resultChatGPT, number);
+            models.push(model);
+        }
+        else {
+            var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
+            models.push(model);
+        }
+    }
     
-    const resultChatGPT = await chatGPT_Service.getMessageChatGPT(textUser);
-    console.log(resultChatGPT);
-    if(resultChatGPT != null){
-        var model = whatsappModel.messageText(resultChatGPT, number);
-        models.push(model);
-    }
-    else {
-        var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
-        models.push(model);
-    }
+
     
     //#endregion
     models.forEach(model => {
