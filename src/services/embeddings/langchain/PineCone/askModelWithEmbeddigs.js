@@ -25,6 +25,10 @@ async function askModelWithEmbeddigs(question){
     const indexName = "clinica";
     const vectorDimension = 1536;
     // 9. Initialize Pinecone client with API key and environment
+
+    console.log(process.env.PINECONE_API_KEY);
+    console.log(process.env.PINECONE_ENVIROMENT);
+
     const client = new PineconeClient();
     await client.init({
       apiKey: process.env.PINECONE_API_KEY,
@@ -45,3 +49,7 @@ async function askModelWithEmbeddigs(question){
 module.exports={
   askModelWithEmbeddigs
 }
+
+//(async () => {
+//  await askModelWithEmbeddigs('Quien es la dueña de la clinica?');
+//})();
