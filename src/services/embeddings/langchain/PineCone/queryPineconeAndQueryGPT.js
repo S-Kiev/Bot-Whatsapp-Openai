@@ -13,8 +13,6 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 
   const client = await pineconeClient();
 
-  console.log(client);
-
 // 3. Start query process
   console.log("Consultando la base de datos vectorial de Pinecone...");
 // 4. Retrieve the Pinecone index
@@ -43,9 +41,12 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
   console.log(`Realizando consulta: ${textUser }...`);
   if (queryResponse.matches.length) {
 // 9. Create an OpenAI instance and load the QAStuffChain
+
     const llm = new OpenAI({ 
         openAIApiKey: process.env.OPENAI_API_KEY,
     });
+
+    console.log('llego aca')
     const chain = loadQAStuffChain(llm);
 // 10. Extract and concatenate page content from matched documents
     const concatenatedPageContent = queryResponse.matches
@@ -57,6 +58,8 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
       textUser : textUser ,
     });
 // 12. Log the answer
+
+    console.log(result)
     return result.text;
   } else {
 // 13. Log that there are no matches, so GPT-3 will not be queried
