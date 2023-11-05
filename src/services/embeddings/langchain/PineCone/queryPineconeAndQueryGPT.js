@@ -49,7 +49,6 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
     console.log('llego aca')
     const chain = loadQAStuffChain(llm);
 
-    console.log(chain);
 // 10. Extract and concatenate page content from matched documents
     const concatenatedPageContent = queryResponse.matches
       .map((match) => match.metadata.pageContent)
