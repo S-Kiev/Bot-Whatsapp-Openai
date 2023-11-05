@@ -48,10 +48,15 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 
     console.log('llego aca')
     const chain = loadQAStuffChain(llm);
+
+    console.log(chain);
 // 10. Extract and concatenate page content from matched documents
     const concatenatedPageContent = queryResponse.matches
       .map((match) => match.metadata.pageContent)
       .join(" ");
+
+    console.log(concatenatedPageContent);
+
 // 11. Execute the chain with input documents and textUser 
     const result = await chain.call({
       input_documents: [new Document({ pageContent: concatenatedPageContent })],
@@ -59,7 +64,7 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
     });
 // 12. Log the answer
 
-    console.log(result)
+    console.log(result);
     return result.text;
   } else {
 // 13. Log that there are no matches, so GPT-3 will not be queried
