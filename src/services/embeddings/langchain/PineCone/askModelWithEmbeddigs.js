@@ -30,6 +30,8 @@ async function askModelWithEmbeddigs(question){
       apiKey: process.env.PINECONE_API_KEY,
       environment: process.env.PINECONE_ENVIROMENT,
     });
+
+    console.log(client);
     // 10. Run the main async function
 
     // 11. Check if Pinecone index exists and create if necessary
