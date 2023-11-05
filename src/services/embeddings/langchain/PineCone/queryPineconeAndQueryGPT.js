@@ -13,14 +13,19 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 
   const client = pineconeClient();
 
+  console.log(client);
+
 // 3. Start query process
   console.log("Consultando la base de datos vectorial de Pinecone...");
 // 4. Retrieve the Pinecone index
   const index = client.Index(process.env.PINECONE_INDEX_NAME);
+  console.log(process.env.PINECONE_INDEX_NAME);
 // 5. Create query embedding
   const queryEmbedding = await new OpenAIEmbeddings({
     openAIApiKey: process.env.OPENAI_API_KEY,
-  }).embedQuery(textUser );
+  }).embedQuery( textUser );
+
+  console.log(queryEmbedding);
 // 6. Query Pinecone index and return top 10 matches
   let queryResponse = await index.query({
     queryRequest: {
@@ -30,6 +35,8 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
       includeValues: true,
     },
   });
+
+  console.log(queryResponse);
 // 7. Log the number of matches 
   console.log(`Fueron encontrados ${queryResponse.matches.length} matches...`);
 // 8. Log the textUser  being asked
