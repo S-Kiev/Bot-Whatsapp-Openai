@@ -1,7 +1,8 @@
 // 1. Import required modules
 const { OpenAIEmbeddings } = require('langchain/embeddings/openai');
 const { RecursiveCharacterTextSplitter } = require('langchain/text_splitter');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 // 2. Export updatePinecone function
 async function updatePinecone (client, indexName, docs) {
   console.log("Retrieving Pinecone index...");

@@ -5,12 +5,16 @@ const { createPineconeIndex } = require('./1-createPineconeIndex');
 const { updatePinecone } = require('./2-updatePinecone');
 const { queryPineconeVectorStoreAndQueryLLM } = require('./3-queryPineconeAndQueryGPT');
 
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 // 7. Set up DirectoryLoader to load documents from the ./documents directory
 
 async function askModelWithEmbeddigs(question){
+
+    console.log('llego a ask: ' + question);
+
     const loader = new DirectoryLoader("../../PDFs", {
         ".pdf": (path) => new PDFLoader(path),
     });

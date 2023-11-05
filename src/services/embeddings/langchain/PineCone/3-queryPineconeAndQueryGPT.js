@@ -3,7 +3,8 @@ const { OpenAIEmbeddings }= require('langchain/embeddings/openai');
 const { OpenAI }= require('langchain/llms/openai');
 const { loadQAStuffChain }= require('langchain/chains');
 const { Document }= require('langchain/document');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 // 2. Export the queryPineconeVectorStoreAndQueryLLM function
 async function queryPineconeVectorStoreAndQueryLLM  (
