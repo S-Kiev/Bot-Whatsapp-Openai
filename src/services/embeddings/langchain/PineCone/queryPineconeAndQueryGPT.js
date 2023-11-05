@@ -11,7 +11,7 @@ dotenv.config();
 // 2. Export the queryPineconeVectorStoreAndQueryLLM function
 async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 
-  const client = pineconeClient();
+  const client = await pineconeClient();
 
   console.log(client);
 
