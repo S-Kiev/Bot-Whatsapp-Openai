@@ -8,24 +8,26 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-// 2. Export the queryPineconeVectorStoreAndQueryLLM function
-async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
+// 2. Export the questionPineconeVectorStoreAndquestionLLM function
+async function queryPineconeAndQueryGPT ( textUser ) {
+
+  const question = textUser;
 
   const client = await pineconeClient();
 
-// 3. Start query process
-  console.log("Querying the Pinecone vector database...");
+// 3. Start question process
+  console.log("questioning the Pinecone vector database...");
   console.log(client);
 
 // 4. Retrieve the Pinecone index
   const index = client.Index(process.env.PINECONE_INDEX_NAME);
-  console.log(process.env.PINECONE_INDEX_NAME);
-// 5. Create query embedding
+
+// 5. Create question embedding
   const queryEmbedding = await new OpenAIEmbeddings({
     openAIApiKey: process.env.OPENAI_API_KEY,
-  }).embedQuery( textUser );
+  }).embedQuery( question );
 
-// 6. Query Pinecone index and return top 10 matches
+// 6. question Pinecone index and return top 10 matches
   let queryResponse = await index.query({
     queryRequest: {
       topK: 10,
@@ -39,7 +41,7 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 // 7. Log the number of matches 
   console.log(`Were found ${queryResponse.matches.length} matches...`);
 // 8. Log the textUser  being asked
-  console.log(`Making an query: ${textUser }...`);
+  console.log(`Making an question: ${question }...`);
   if (queryResponse.matches.length) {
 // 9. Create an OpenAI instance and load the QAStuffChain
 
@@ -59,11 +61,11 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 // 11. Execute the chain with input documents and textUser 
     const result = await chain.call({
       input_documents: [new Document({ pageContent: concatenatedPageContent })],
-      textUser : textUser ,
+      question : question,
     });
 // 12. Log the answer
 
-    console.log(result);
+    console.log(result.text);
     return result.text;
   } else {
 // 13. Log that there are no matches, so GPT-3 will not be queried
@@ -72,5 +74,9 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 };
 
 module.exports = {
-    queryPineconeVectorStoreAndQueryLLM
+  queryPineconeAndQueryGPT
 }
+
+//(async () => {
+// await queryPineconeAndQueryGPT('Quien es la dueña de la clinica?');
+//})();
