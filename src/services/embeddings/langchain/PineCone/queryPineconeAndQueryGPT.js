@@ -25,7 +25,6 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
     openAIApiKey: process.env.OPENAI_API_KEY,
   }).embedQuery( textUser );
 
-  console.log(queryEmbedding);
 // 6. Query Pinecone index and return top 10 matches
   let queryResponse = await index.query({
     queryRequest: {
