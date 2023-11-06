@@ -47,7 +47,7 @@ async function processMessage(textUser, number) {
         const resultChatGPTWithEmbeddings = await queryPineconeAndQueryGPT(textUser);
 
         if(resultChatGPTWithEmbeddings != null){
-            var model = whatsappModel.messageText(resultChatGPT, number);
+            var model = whatsappModel.messageText(resultChatGPTWithEmbeddings, number);
             models.push(model);
         }
         else {
