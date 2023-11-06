@@ -1,7 +1,7 @@
 const whatsappModel = require('../shared/whatsappModels');
 const whatsappService = require('../services/whatsappService');
 const chatGPT_Service = require('../services/chatGPT-Service');
-const { askModelWithEmbeddigs } = require('../services/embeddings/langchain/PineCone/askModelWithEmbeddigs');
+const { queryPineconeVectorStoreAndQueryLLM } = require('../services/embeddings/langchain/PineCone/queryPineconeAndQueryGPT');
 
 async function processMessage(textUser, number) {
 
@@ -44,7 +44,7 @@ async function processMessage(textUser, number) {
 
     if (textUser.includes('consulta')){
 
-        const resultChatGPTWithEmbeddings = await askModelWithEmbeddigs(textUser);
+        const resultChatGPTWithEmbeddings = await queryPineconeVectorStoreAndQueryLLM(textUser);
 
         if(resultChatGPTWithEmbeddings != null){
             var model = whatsappModel.messageText(resultChatGPT, number);

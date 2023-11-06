@@ -15,6 +15,8 @@ async function queryPineconeVectorStoreAndQueryLLM ( textUser ) {
 
 // 3. Start query process
   console.log("Consultando la base de datos vectorial de Pinecone...");
+  console.log(client);
+
 // 4. Retrieve the Pinecone index
   const index = client.Index(process.env.PINECONE_INDEX_NAME);
   console.log(process.env.PINECONE_INDEX_NAME);
