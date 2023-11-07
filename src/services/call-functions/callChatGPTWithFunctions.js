@@ -1,8 +1,6 @@
 const { OpenAI } = require('openai');
 
-const openai = new OpenAI({
-    apiKey: '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'
-  });
+const openai = new OpenAI({});
 
 // Get the current time of day
 function getTimeOfDay(){

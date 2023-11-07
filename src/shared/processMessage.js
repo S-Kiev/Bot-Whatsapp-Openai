@@ -54,6 +54,7 @@ async function processMessage(textUser, number) {
             models.push(model);
         }
         else {
+            console.log('1');
             var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
             models.push(model);
         }
@@ -67,6 +68,8 @@ async function processMessage(textUser, number) {
             models.push(model);
         }
         else {
+            console.log('2');
+
             var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
             models.push(model);
         }
