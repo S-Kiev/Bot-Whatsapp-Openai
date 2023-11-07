@@ -1,7 +1,10 @@
 const whatsappModel = require('../shared/whatsappModels');
 const whatsappService = require('../services/whatsappService');
+
 const chatGPT_Service = require('../services/chatGPT-Service');
 const { queryPineconeAndQueryGPT } = require('../services/embeddings/langchain/PineCone/queryPineconeAndQueryGPT');
+const { callChatGPTWithFunctions } = require('../services/call-functions/callChatGPTWithFunctions');
+
 
 async function processMessage(textUser, number) {
 
@@ -48,6 +51,19 @@ async function processMessage(textUser, number) {
 
         if(resultChatGPTWithEmbeddings != null){
             var model = whatsappModel.messageText(resultChatGPTWithEmbeddings, number);
+            models.push(model);
+        }
+        else {
+            var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
+            models.push(model);
+        }
+
+    } else if (textUser.includes('quiero')){
+
+        const resultChatGPTWithFunctions = await callChatGPTWithFunctions(textUser);
+
+        if(resultChatGPTWithFunctions != null){
+            var model = whatsappModel.messageText(resultChatGPTWithFunctions, number);
             models.push(model);
         }
         else {

@@ -1,9 +1,9 @@
 const { PineconeClient } = require('@pinecone-database/pinecone');
 const { DirectoryLoader } = require('langchain/document_loaders/fs/directory');
 const { PDFLoader } = require('langchain/document_loaders/fs/pdf');
-const { createPineconeIndex } = require('./1-createPineconeIndex');
-const { updatePinecone } = require('./2-updatePinecone');
-const { queryPineconeVectorStoreAndQueryLLM } = require('./3-queryPineconeAndQueryGPT');
+const { createPineconeIndex } = require('./createPineconeIndex');
+const { updatePinecone } = require('./updatePinecone');
+const { queryPineconeVectorStoreAndQueryLLM } = require('./queryPineconeAndQueryGPT');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -11,7 +11,7 @@ dotenv.config();
 
 // 7. Set up DirectoryLoader to load documents from the ./documents directory
 
-async function askModelWithEmbeddigs(question){
+async function main(question){
 
     console.log('llego a ask: ' + question);
 
@@ -47,7 +47,7 @@ async function askModelWithEmbeddigs(question){
 }
 
 module.exports={
-  askModelWithEmbeddigs
+  main
 }
 
 //(async () => {
