@@ -4,6 +4,7 @@ const axios = require('axios');
 const openai = new OpenAI({});
 
 async function runCallFunctions (userText) {
+	userText = "Que hora es?"
     const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo-0613',
         "messages": [
@@ -30,7 +31,7 @@ async function runCallFunctions (userText) {
             },
             {
                 "name": "getTimeOfDay",
-                "description": "Get the time of day.",
+                "description": "Brindar al usuario la hora",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -62,7 +63,7 @@ async function runCallFunctions (userText) {
 
         const response = await runCallFunctionsSecond(userText, argumentsFunction, nameFunction, Obj);
         console.log(response);
-        //return response.choices[0].message.content;
+        return response.choices[0].message.content;
     }
 }
 
