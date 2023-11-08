@@ -3,7 +3,7 @@ const whatsappService = require('../services/whatsappService');
 
 const chatGPT_Service = require('../services/chatGPT-Service');
 const { queryPineconeAndQueryGPT } = require('../services/embeddings/langchain/PineCone/queryPineconeAndQueryGPT');
-const { callChatGPTWithFunctions } = require('../services/call-functions/callChatGPTWithFunctions');
+const { runCallFunctions } = require('../services/call-functions/callChatGPTWithFunctions');
 
 
 async function processMessage(textUser, number) {
@@ -61,7 +61,7 @@ async function processMessage(textUser, number) {
 
     } else if (textUser.includes('quiero')){
 
-        const resultChatGPTWithFunctions = await callChatGPTWithFunctions(textUser);
+        const resultChatGPTWithFunctions = await runCallFunctions(textUser);
 
         if(resultChatGPTWithFunctions != null){
             var model = whatsappModel.messageText(resultChatGPTWithFunctions, number);
