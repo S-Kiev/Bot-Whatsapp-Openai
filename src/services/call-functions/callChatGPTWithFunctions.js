@@ -63,7 +63,7 @@ async function runCallFunctions (userText) {
 
         const response = await runCallFunctionsSecond(userText, argumentsFunction, nameFunction, Obj);
         console.log(response);
-        return response.choices[0].message.content;
+        return response;
     }
 }
 
