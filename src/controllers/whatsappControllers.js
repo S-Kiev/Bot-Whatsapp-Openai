@@ -64,7 +64,7 @@ async function sendCode (req, res) {
     try { 
     var whatsappBotKey = req.body.whatsappBotKey;
         console.log( req.body.whatsappBotKey);
-        console.log(process.env.WHATSAPP_BOT_KEY)
+        console.log("No tiene la Bot Key" + process.env.WHATSAPP_BOT_KEY)
     if (whatsappBotKey === process.env.WHATSAPP_BOT_KEY) {
 
         var code = req.body.code;
