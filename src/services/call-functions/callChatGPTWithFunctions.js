@@ -1,6 +1,8 @@
 const { OpenAI } = require('openai');
 const axios = require('axios');
 
+const { findCustomerByNameAndLastname } = require('./findCustomerByNameAndLastname');
+
 const openai = new OpenAI({});
 
 async function runCallFunctions (userText) {
@@ -37,6 +39,24 @@ async function runCallFunctions (userText) {
                     },
                     "require": [],
                 }
+            },
+            {
+              "name": "findCustomerByNameAndLastname",
+              "description": "Encontrar a un cliente por su nombre y apellido",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Es el nombre del cliente"
+                  },
+                  "lastname": {
+                    "type": "string",
+                    "description": "Es el apellido del cliente"
+                  }
+                },
+                "required": ["name", "lastname"]
+              }
             }
           ]
     });
@@ -50,9 +70,9 @@ async function runCallFunctions (userText) {
     const {name: nameFunction, arguments: argumentsFunction} = response.choices[0].message.function_call;
     const parsedArguments = JSON.stringify(argumentsFunction);
 
-    if(nameFunction === 'get_current_weather') {
-        const Obj = await getWeather(parsedArguments);
-
+    if(nameFunction === 'findCustomerByNameAndLastname') {
+        const Obj = await findCustomerByNameAndLastname(parsedArguments.name, parsedArguments.lastname);
+        console.log(Obj);
         const response = await runCallFunctionsSecond(userText, argumentsFunction, nameFunction, Obj);
         return response.choices[0].message.content;
     }
