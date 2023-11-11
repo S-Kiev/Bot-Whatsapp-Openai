@@ -10,7 +10,10 @@ async function runFunctionsInSecondCall (userText, argumentsFunction, nameFuncti
         const response = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo-0613',
             "messages": [
-                {"role": "user", "content": userText},
+                {
+                    "role": "user", 
+                    "content": userText
+                },
                 {
                     "role": "assistant",
                     "content": null,
@@ -29,7 +32,7 @@ async function runFunctionsInSecondCall (userText, argumentsFunction, nameFuncti
         });
     
     
-    
+        console.log("Razon de fin de la segunda llamada: " + response.choices[0].finish_reason)
     
         if(response.choices[0].finish_reason === "stop") {
             console.log(response.choices[0].message.content)

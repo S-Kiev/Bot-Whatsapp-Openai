@@ -15,6 +15,7 @@ async function runCallFunctions (userText) {
           "functions": functionDictionary
     });
 
+    console.log(response.choices[0].finish_reason);
 
     if(response.choices[0].finish_reason != "function_call") {
         console.log(response.choices[0].message.content);
@@ -24,11 +25,14 @@ async function runCallFunctions (userText) {
     const {name: nameFunction, arguments: argumentsFunction} = response.choices[0].message.function_call;
     const parsedArguments = JSON.stringify(argumentsFunction);
 
+    console.log(nameFunction);
+    console.log(parsedArguments);
+
+
     if(nameFunction === 'findCustomerByNameAndLastname') {
         const Obj = await utilityFunctions.findCustomerByNameAndLastname(parsedArguments.name, parsedArguments.lastname);
-        console.log(Obj);
         const response = await runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
-        return response.choices[0].message.content;
+        return response;
     }
 
     if(nameFunction === 'getTimeOfDay'){

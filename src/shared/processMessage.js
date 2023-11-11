@@ -62,7 +62,7 @@ async function processMessage(textUser, number) {
     } else if (textUser.includes('quiero')){
 
         const resultChatGPTWithFunctions = await runCallFunctions(textUser);
-
+        console.log(resultChatGPTWithFunctions);
         if(resultChatGPTWithFunctions != null){
             var model = whatsappModel.messageText(resultChatGPTWithFunctions, number);
             models.push(model);
