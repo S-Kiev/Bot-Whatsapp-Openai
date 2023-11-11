@@ -6,6 +6,9 @@ async function runFunctionsInSecondCall (userText, argumentsFunction, nameFuncti
     console.log(argumentsFunction);
     console.log(nameFunction);
     console.log(Obj);
+
+    console.log("Llego a la segunda llamada");
+
     
         const response = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo-0613',
