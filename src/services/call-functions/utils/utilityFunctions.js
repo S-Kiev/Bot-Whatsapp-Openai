@@ -1,5 +1,23 @@
 const axios = require('axios');
 
+function getTimeOfDay(){
+    let date = new Date()
+    let hours = date.getHours()
+    let timeOfDay = "AM"
+    if(hours > 12){
+      hours = hours - 12
+      timeOfDay = "PM"
+    }
+
+	return {
+        date: date,
+        hours: date.getHours(),
+        minutes: date.getMinutes(),
+        seconds: date.getSeconds(),
+        timeOfDay: timeOfDay,
+    };
+}
+
 async function findCustomerByNameAndLastname(name, lastname) {
     let config = {
         method: 'get',
@@ -17,6 +35,7 @@ async function findCustomerByNameAndLastname(name, lastname) {
       });
 }
 
-module.exports= {
+module.exports = {
+    getTimeOfDay,
     findCustomerByNameAndLastname
 }
