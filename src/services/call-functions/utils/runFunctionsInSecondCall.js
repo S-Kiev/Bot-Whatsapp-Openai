@@ -1,3 +1,5 @@
+const { OpenAI } = require('openai');
+const openai = new OpenAI({});
 const { functionDictionary } = require('./functionDictionary');
 
 async function runFunctionsInSecondCall (userText, argumentsFunction, nameFunction, Obj) {
@@ -52,12 +54,6 @@ module.exports = {
 
 /*
 async function runCallFunctionsSecond (userText, argumentsFunction, nameFunction, Obj) {
-
-    console.log(userText);
-    console.log(argumentsFunction);
-    console.log(nameFunction);
-    console.log(Obj);
-    
     
         const response = await openai.chat.completions.create({
             model: 'gpt-3.5-turbo-0613',
