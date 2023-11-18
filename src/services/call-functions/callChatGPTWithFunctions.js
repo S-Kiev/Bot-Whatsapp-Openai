@@ -15,7 +15,6 @@ async function runCallFunctions (userText) {
           "functions": functionDictionary
     });
 
-    console.log(response.choices[0].finish_reason);
 
     if(response.choices[0].finish_reason != "function_call") {
         console.log(response.choices[0].message.content);
@@ -24,22 +23,32 @@ async function runCallFunctions (userText) {
 
     const {name: nameFunction, arguments: argumentsFunction} = response.choices[0].message.function_call;
     const parsedArguments = JSON.stringify(argumentsFunction);
-
-    console.log(nameFunction);
-    console.log(parsedArguments);
+    const objectArguments = JSON.parse(argumentsFunction);
 
 
-    if(nameFunction === 'findCustomerByNameAndLastname') {
-        const Obj = await utilityFunctions.findCustomerByNameAndLastname(parsedArguments.name, parsedArguments.lastname);
-        const response = await runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
-        return response;
-    }
+    if (nameFunction === 'findCustomerByNameAndLastname') {
+        utilityFunctions.findCustomerByNameAndLastname(objectArguments.name, objectArguments.lastname)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name} ${objectArguments.lastname}`
+              };
+            }
+      
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+      
+      
 
     if(nameFunction === 'getTimeOfDay'){
         const Obj = utilityFunctions.getTimeOfDay(parsedArguments);
-
         const response = await runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
-        console.log(response);
         return response;
     }
 }

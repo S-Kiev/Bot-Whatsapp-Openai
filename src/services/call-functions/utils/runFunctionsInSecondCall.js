@@ -4,11 +4,6 @@ const { functionDictionary } = require('./functionDictionary');
 
 async function runFunctionsInSecondCall (userText, argumentsFunction, nameFunction, Obj) {
 
-    console.log(userText);
-    console.log(argumentsFunction);
-    console.log(nameFunction);
-    console.log(Obj);
-
     console.log("Llego a la segunda llamada");
 
     

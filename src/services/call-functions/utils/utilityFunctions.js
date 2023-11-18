@@ -19,21 +19,30 @@ function getTimeOfDay(){
 }
 
 async function findCustomerByNameAndLastname(name, lastname) {
+  return new Promise((resolve, reject) => {
     let config = {
-        method: 'get',
-        maxBodyLength: Infinity,
-        url: `http://localhost:1337/api/customer-personal-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
-        headers: { }
-      };
-      
-      axios.request(config)
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `https://strapi-supabase-dkk9.onrender.com/api/user-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
+      headers: {},
+    };
+
+    console.log(config.url);
+
+    axios
+      .request(config)
       .then((response) => {
-        return JSON.stringify(response.data);
+        console.log("Respuesta de Axios =>");
+        console.log(JSON.stringify(response.data));
+        resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
         console.log(error);
+        reject(error);
       });
+  });
 }
+
 
 module.exports = {
     getTimeOfDay,
