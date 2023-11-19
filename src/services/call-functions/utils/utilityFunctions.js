@@ -20,6 +20,10 @@ function getTimeOfDay(){
 
 async function findCustomerByNameAndLastname(name, lastname) {
   return new Promise((resolve, reject) => {
+    
+    name  = name.replace(/\s/g, "%20");
+    lastname = lastname.replace(/\s/g, "%20");
+
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -43,8 +47,33 @@ async function findCustomerByNameAndLastname(name, lastname) {
   });
 }
 
+async function strapiPublicRequest(url) {
+  return new Promise((resolve, reject) => {
+
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: url,
+      headers: {},
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log("Respuesta de Axios =>");
+        console.log(JSON.stringify(response.data));
+        resolve(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
 
 module.exports = {
     getTimeOfDay,
-    findCustomerByNameAndLastname
+    findCustomerByNameAndLastname,
+    strapiPublicRequest
 }

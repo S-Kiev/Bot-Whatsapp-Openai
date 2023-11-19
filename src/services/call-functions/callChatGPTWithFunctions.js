@@ -36,6 +36,178 @@ async function runCallFunctions (userText) {
               };
             }
       
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+
+      if (nameFunction === 'findConsultationByCustomerNameAndLastname') {
+
+        const name  = objectArguments.name.replace(/\s/g, "%20");
+        const lastname = objectArguments.lastname.replace(/\s/g, "%20");
+
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/user-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`)
+
+        utilityFunctions.strapiPublicRequest(url)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name} ${objectArguments.lastname}`
+              };
+            }
+      
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+
+      if (nameFunction === 'findConsultationByResponsibleUserName') {
+
+        const name  = objectArguments.name.replace(/\s/g, "%20");
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consultations?populate=*&filters[responsibleUser][name][$eqi]=${name}&sort[0]=createdAt:desc&pagination[limit]=1`)
+
+        utilityFunctions.strapiPublicRequest(url)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name}`
+              };
+            }
+      
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+
+      if (nameFunction === 'findEquitmentByName') {
+
+        const name  = objectArguments.name.replace(/\s/g, "%20");
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/equipments?populate=*&filters[name][$eqi]=${name}`)
+
+        utilityFunctions.strapiPublicRequest(url)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name}`
+              };
+            }
+      
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+
+      if (nameFunction === 'findByStatusEquitmentByName') {
+
+        const name  = objectArguments.name.replace(/\s/g, "%20");
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/equipment-histories?populate=*&filters[equipment][name][$eqi]=${name}`)
+
+        utilityFunctions.strapiPublicRequest(url)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name}`
+              };
+            }
+      
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+
+      if (nameFunction === 'findTreatmentsByName') {
+
+        const name  = objectArguments.name.replace(/\s/g, "%20");
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/treatments?populate=*&filters[name][$eqi]=${name}`)
+
+        utilityFunctions.strapiPublicRequest(url)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name}`
+              };
+            }
+      
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+
+      if (nameFunction === 'findConsultingRoomsByName') {
+
+        const name  = objectArguments.name.replace(/\s/g, "%20");
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consulting-rooms?populate=*&filters[name][$eqi]=${name}`)
+
+        utilityFunctions.strapiPublicRequest(url)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name}`
+              };
+            }
+      
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
+            const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
+            return response;
+          })
+          .catch((error) => {
+            console.error("Error al obtener el objeto:", error);
+          });
+      }
+
+      if (nameFunction === 'findStatusOfConsultingRoomsByName') {
+
+        const name  = objectArguments.name.replace(/\s/g, "%20");
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consulting-room-histories?populate=*&filters[consulting_room][name][$eqi]=${name}`)
+
+        utilityFunctions.strapiPublicRequest(url)
+          .then((Obj) => {
+            console.log("El objeto está: " + Obj);
+            if (Obj == undefined) {
+              Obj = {
+                message: `No se pudo recuperar los datos de ${objectArguments.name}`
+              };
+            }
+      
+            //Aqui el Obj podria procesarse para dar una respuesta mas fluida
+
             const response = runFunctionsInSecondCall(userText, argumentsFunction, nameFunction, Obj);
             return response;
           })
