@@ -47,14 +47,14 @@ async function findCustomerByNameAndLastname(name, lastname) {
   });
 }
 
-async function strapiPublicRequest(url) {
+async function strapiRequest(url, method, headers) {
   return new Promise((resolve, reject) => {
 
     let config = {
-      method: 'get',
+      method: method,
       maxBodyLength: Infinity,
       url: url,
-      headers: {},
+      headers: headers,
     };
 
     axios
@@ -75,5 +75,5 @@ async function strapiPublicRequest(url) {
 module.exports = {
     getTimeOfDay,
     findCustomerByNameAndLastname,
-    strapiPublicRequest
+    strapiRequest
 }

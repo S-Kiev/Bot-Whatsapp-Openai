@@ -51,9 +51,11 @@ async function runCallFunctions (userText) {
         const name  = objectArguments.name.replace(/\s/g, "%20");
         const lastname = objectArguments.lastname.replace(/\s/g, "%20");
 
-        const url = process.env.STRAPI_BACKEND_HOST + (`/api/user-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`)
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/user-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`);
+        const method = 'get';
+        const headers = {};
 
-        utilityFunctions.strapiPublicRequest(url)
+        utilityFunctions.strapiRequest(url, method, headers)
           .then((Obj) => {
             console.log("El objeto está: " + Obj);
             if (Obj == undefined) {
@@ -75,9 +77,12 @@ async function runCallFunctions (userText) {
       if (nameFunction === 'findConsultationByResponsibleUserName') {
 
         const name  = objectArguments.name.replace(/\s/g, "%20");
-        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consultations?populate=*&filters[responsibleUser][name][$eqi]=${name}&sort[0]=createdAt:desc&pagination[limit]=1`)
 
-        utilityFunctions.strapiPublicRequest(url)
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consultations?populate=*&filters[responsibleUser][name][$eqi]=${name}&sort[0]=createdAt:desc&pagination[limit]=1`);
+        const method = 'get';
+        const headers = {};
+
+        utilityFunctions.strapiRequest(url, method, headers)
           .then((Obj) => {
             console.log("El objeto está: " + Obj);
             if (Obj == undefined) {
@@ -99,9 +104,12 @@ async function runCallFunctions (userText) {
       if (nameFunction === 'findEquitmentByName') {
 
         const name  = objectArguments.name.replace(/\s/g, "%20");
-        const url = process.env.STRAPI_BACKEND_HOST + (`/api/equipments?populate=*&filters[name][$eqi]=${name}`)
 
-        utilityFunctions.strapiPublicRequest(url)
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/equipments?populate=*&filters[name][$eqi]=${name}`);
+        const method = 'get';
+        const headers = {};
+
+        utilityFunctions.strapiRequest(url, method, headers)
           .then((Obj) => {
             console.log("El objeto está: " + Obj);
             if (Obj == undefined) {
@@ -123,9 +131,12 @@ async function runCallFunctions (userText) {
       if (nameFunction === 'findByStatusEquitmentByName') {
 
         const name  = objectArguments.name.replace(/\s/g, "%20");
-        const url = process.env.STRAPI_BACKEND_HOST + (`/api/equipment-histories?populate=*&filters[equipment][name][$eqi]=${name}`)
 
-        utilityFunctions.strapiPublicRequest(url)
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/equipment-histories?populate=*&filters[equipment][name][$eqi]=${name}`);
+        const method = 'get';
+        const headers = {};
+
+        utilityFunctions.strapiRequest(url, method, headers)
           .then((Obj) => {
             console.log("El objeto está: " + Obj);
             if (Obj == undefined) {
@@ -147,9 +158,12 @@ async function runCallFunctions (userText) {
       if (nameFunction === 'findTreatmentsByName') {
 
         const name  = objectArguments.name.replace(/\s/g, "%20");
-        const url = process.env.STRAPI_BACKEND_HOST + (`/api/treatments?populate=*&filters[name][$eqi]=${name}`)
 
-        utilityFunctions.strapiPublicRequest(url)
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/treatments?populate=*&filters[name][$eqi]=${name}`);
+        const method = 'get';
+        const headers = {};
+
+        utilityFunctions.strapiRequest(url, method, headers)
           .then((Obj) => {
             console.log("El objeto está: " + Obj);
             if (Obj == undefined) {
@@ -171,9 +185,12 @@ async function runCallFunctions (userText) {
       if (nameFunction === 'findConsultingRoomsByName') {
 
         const name  = objectArguments.name.replace(/\s/g, "%20");
-        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consulting-rooms?populate=*&filters[name][$eqi]=${name}`)
 
-        utilityFunctions.strapiPublicRequest(url)
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consulting-rooms?populate=*&filters[name][$eqi]=${name}`);
+        const method = 'get';
+        const headers = {};
+
+        utilityFunctions.strapiRequest(url, method, headers)
           .then((Obj) => {
             console.log("El objeto está: " + Obj);
             if (Obj == undefined) {
@@ -195,9 +212,12 @@ async function runCallFunctions (userText) {
       if (nameFunction === 'findStatusOfConsultingRoomsByName') {
 
         const name  = objectArguments.name.replace(/\s/g, "%20");
-        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consulting-room-histories?populate=*&filters[consulting_room][name][$eqi]=${name}`)
 
-        utilityFunctions.strapiPublicRequest(url)
+        const url = process.env.STRAPI_BACKEND_HOST + (`/api/consulting-room-histories?populate=*&filters[consulting_room][name][$eqi]=${name}`);
+        const method = 'get';
+        const headers = {};
+
+        utilityFunctions.strapiRequest(url, method, headers)
           .then((Obj) => {
             console.log("El objeto está: " + Obj);
             if (Obj == undefined) {
