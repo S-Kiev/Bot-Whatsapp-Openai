@@ -27,7 +27,7 @@ async function findCustomerByNameAndLastname(name, lastname) {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://strapi-supabase-dkk9.onrender.com/api/user-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
+      url: `https://strapi-qa-67kr.onrender.com/api/user-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
       headers: {},
     };
 
@@ -47,7 +47,7 @@ async function findCustomerByNameAndLastname(name, lastname) {
   });
 }
 
-async function strapiRequest(url, method, headers) {
+async function strapiRequestGet(url, method, headers) {
   return new Promise((resolve, reject) => {
 
     let config = {
@@ -71,9 +71,35 @@ async function strapiRequest(url, method, headers) {
   });
 }
 
+async function strapiRequestUpdate(url, method, headers, data) {
+  return new Promise((resolve, reject) => {
+
+    let config = {
+      method: method,
+      maxBodyLength: Infinity,
+      url: url,
+      headers: headers,
+      data: data
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log("Respuesta de Axios =>");
+        console.log(JSON.stringify(response.data));
+        resolve(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
 
 module.exports = {
     getTimeOfDay,
     findCustomerByNameAndLastname,
-    strapiRequest
+    strapiRequestGet, 
+    strapiRequestUpdate
 }
