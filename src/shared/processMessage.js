@@ -61,6 +61,8 @@ async function processMessage(textUser, number) {
 
     } else if (textUser.includes('quiero')){
 
+        console.log("Entro al flujo");
+
         const resultChatGPTWithFunctions = await runCallFunctions(textUser);
         console.log(resultChatGPTWithFunctions);
         if(resultChatGPTWithFunctions != null){
