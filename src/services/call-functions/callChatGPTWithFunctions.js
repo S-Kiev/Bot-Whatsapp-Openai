@@ -5,11 +5,12 @@ const { functionDictionary } = require('./utils/functionDictionary');
 const utilityFunctions = require('./utils/utilityFunctions');
 const { runFunctionsInSecondCall } = require('./utils/runFunctionsInSecondCall')
 
-const openai = new OpenAI({});
+const openai = new OpenAI({
+  apiKey: "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"
+});
+
 
 async function runCallFunctions (userText) {
-
-
 
   console.log(userText)
  
@@ -18,7 +19,7 @@ async function runCallFunctions (userText) {
         "messages": [
             {
                "role": "user",
-               content: userText
+               "content": userText
             }
           ],
         "functions": functionDictionary
@@ -587,3 +588,10 @@ async function runCallFunctions (userText) {
 module.exports = {
     runCallFunctions
 }
+
+async function main() {
+  const result = await runCallFunctions("Quiero que encuentres la consulta de ezequiel viera");
+  console.log("Resultado:", result);
+}
+
+main();

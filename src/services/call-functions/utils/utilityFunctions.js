@@ -27,7 +27,7 @@ async function findCustomerByNameAndLastname(name, lastname) {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://strapi-qa-67kr.onrender.com/api/user-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
+      url: `https://strapi-qa-67kr.onrender.com/api/customer-personal-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
       headers: {},
     };
 
