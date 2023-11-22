@@ -5,13 +5,10 @@ const { functionDictionary } = require('./utils/functionDictionary');
 const utilityFunctions = require('./utils/utilityFunctions');
 const { runFunctionsInSecondCall } = require('./utils/runFunctionsInSecondCall')
 
-const openai = new OpenAI({
-  apiKey: "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"
-});
+const openai = new OpenAI({});
 
 
 async function runCallFunctions (userText) {
-
   console.log(userText)
  
     const response = await openai.chat.completions.create({
@@ -588,10 +585,3 @@ async function runCallFunctions (userText) {
 module.exports = {
     runCallFunctions
 }
-
-async function main() {
-  const result = await runCallFunctions("Quiero que encuentres la consulta de ezequiel viera");
-  console.log("Resultado:", result);
-}
-
-main();

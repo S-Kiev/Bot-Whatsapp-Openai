@@ -28,6 +28,7 @@ async function findCustomerByNameAndLastname(name, lastname) {
       method: 'get',
       maxBodyLength: Infinity,
       url: `https://strapi-qa-67kr.onrender.com/api/customer-personal-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
+
       headers: {},
     };
 
