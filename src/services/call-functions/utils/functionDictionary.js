@@ -29,7 +29,7 @@ const functionDictionary = [
   },
   {
     "name": "findConsultationByCustomerNameAndLastname",
-    "description": "El ususario te pedira que encuentres una consulta por el nombre y apellido de un cliente",
+    "description": "encontrar una consulta por el nombre y apellido de un cliente",
     "parameters": {
       "type": "object",
       "properties": {
@@ -43,20 +43,6 @@ const functionDictionary = [
         }
       },
       "required": ["name", "lastname"]
-    }
-  },
-  {
-    "name": "findConsultationByResponsibleUserName",
-    "description": "El ususario te pedira que encuentres una consulta por el nombre del usuario responsable",
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Es el nombre del usuario responsable"
-        }
-      },
-      "required": ["name"]
     }
   },
   {
@@ -148,6 +134,24 @@ const functionDictionary = [
     }
   },
   {
+    "name": "findTotalDebtByCustomerNameAndLastname",
+    "description": "El usuario te consultara por la deuda total de un cliente.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Es el nombre del cliente"
+        },
+        "lastname": {
+          "type": "string",
+          "description": "Es el apellido del cliente"
+        }
+      },
+      "required": ["name", "lastname"]
+    }
+  },
+  {
     "name": "findMedicalInformationOfCustomerByNameAndLastname",
     "description": "El usuario te consultara por la informacion medica de un cliente. Puede preguntarte por el Telefono de emergencia, si el paciente tiene cancer, problemas de columna o de corazon, etc.",
     "parameters": {
@@ -203,7 +207,7 @@ const functionDictionary = [
         },
         "birthdate": {
           "type": "string",
-          "description": "Es el cumpleaños del cliente. Debes establecerlo en un formato DateTime para poder procesarlo como una fecha"
+          "description": `Es el cumpleaños del cliente. Debes establecerlo en este formato: 'AAAA-MM-DDTHH:MM:SS'. Si el ususario no te da indicaciones de minutos o segundos pon 00. Aqui tienes la fecha actual como contexto: ${new Date()}`
         },
         "cellphone": {
           "type": "string",
@@ -249,7 +253,7 @@ const functionDictionary = [
         },
         "totalCost": {
           "type": "integer",
-          "description": "Es el costo totoal por la consumicion del cliente"
+          "description": "Es el costo total por la consumicion del cliente"
         },
         "paid": {
           "type": "integer",
@@ -258,7 +262,7 @@ const functionDictionary = [
         "paymentStatus": {
           "type": "string",
           "enum": ["total", "partial", "pending"],
-          "description": "Es el estado de pagos del cliente. es un enum con valores posibles: total (cuando se ha pagado el total de la cuenta), partial (cuando es pacial y no se ha abonado el 100%) y pending (cuando esta pendiente porque el cliente ha abonado 0)"
+          "description": "Es el estado de pagos del cliente, el usuario te lo dira en español. es un enum con valores posibles: total (cuando se ha pagado el total de la cuenta), partial (cuando es pacial y no se ha abonado el 100%) y pending (cuando esta pendiente porque el cliente ha abonado 0)"
         }
       },
       "required": ["name", "lastname"]
@@ -266,7 +270,7 @@ const functionDictionary = [
   },
   {
     "name": "updateMedicalInformationCustomer",
-    "description": "El usuario te pedira que modifiques la información medica de un cliente",
+    "description": "El usuario te pedira que modifiques los datos medicos de un cliente",
     "parameters": {
       "type": "object",
       "properties": {
@@ -340,7 +344,7 @@ const functionDictionary = [
   },    
   {
     "name": "updateMeasurementsCustomer",
-    "description": "El usuario te pedira que modifiques información relacionada a las medidas de un cliente",
+    "description": "El usuario te pedira que modifiques datos relacionados a las medidas de un cliente",
     "parameters": {
       "type": "object",
       "properties": {
@@ -354,19 +358,19 @@ const functionDictionary = [
         },
         "highWaist": {
           "type": "integer",
-          "description": "es el ato de la ciuntura de el cliente"
+          "description": "es el alto de la ciuntura de el cliente, simepre en metros. Ejemplo 1 metro 50cm o 150cm, serian 1.5"
         },
         "mean": {
           "type": "integer",
-          "description": "Es la media del cliente"
+          "description": "Es la media del cliente, simepre en centrimetros. Ejemplo 1 metro 50cm o 150cm, serian 1.5"
         },
         "navelLine": {
           "type": "integer",
-          "description": "Es la linea del ombligo del cliente."
+          "description": "Es la linea del ombligo del cliente, simepre en centrimetros. Ejemplo 1 metro 50cm o 150cm, serian 1.5"
         },
         "lowerBelly": {
           "type": "integer",
-          "description": "Es la medida del vientre bajo del cliente"
+          "description": "Es la medida del vientre bajo del cliente, simepre en centrimetros. Ejemplo 1 metro 50cm o 150cm, serian 1.50"
         }
       },
       "required": ["name", "lastname"]

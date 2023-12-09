@@ -1,5 +1,6 @@
 const { OpenAI } = require('openai');
-const openai = new OpenAI({});
+const openai = new OpenAI({
+});
 const { functionDictionary } = require('./functionDictionary');
 
 async function runFunctionsInSecondCall (userText, argumentsFunction, nameFunction, Obj) {

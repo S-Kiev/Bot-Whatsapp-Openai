@@ -58,69 +58,6 @@ async function recivedMessage (req, res) {
     }
 }
 
-async function sendCode (req, res) {
-
-    console.log(req.body)
-    try { 
-    var whatsappBotKey = req.body.whatsappBotKey;
-    
-    if (whatsappBotKey == "EsteticaNatural") {
-
-        var code = req.body.code;
-        var number = req.body.number;
-
-        if (code !== undefined && number !== undefined) {
-            try {
-                var model = modelMessageWhatsapp.messageText(`Su código de recuperación es:\n *${code}*`, number);
-                whatsappService.sendMessageWhatsapp(model); 
-                console.log(`Codigo enviado con exito`);
-                res.status(200).send({ message:`Codigo enviado con exito`});
-            } catch (e) {
-                res.status(401).send({ message:'numero de telefono o código incorrectos'});
-            }
-        } else {
-            res.status(401).send({ message:`Informacion proporcionada incorrecta \n codigo ${code} \n numero ${number}`});
-        }
-    } else {
-        res.status(401).send({ message:'No tiene autorización para usar el bot'});
-    }
-
-    } catch (e) {
-        res.status(401).send({ message:'Error al procesar la solicitud'});
-    }
-}
-
-async function sendNotify (req, res) {
-    console.log(req.body)
-    try { 
-
-    var whatsappBotKey = req.body.whatsappBotKey;  
-    if (whatsappBotKey == "EsteticaNatural") {
-
-        var message = req.body.message;
-        var number = req.body.number;
-
-        if (message !== undefined && number !== undefined) {
-            try {
-                var model = modelMessageWhatsapp.messageText(message, number);
-                whatsappService.sendMessageWhatsapp(model); 
-                console.log(`Notificación enviada con exito`);
-                res.status(200);
-            } catch (e) {
-                res.status(401);
-            }
-        } else {
-            res.status(401);
-        }
-    } else {
-        res.status(401);
-    }
-
-    } catch (e) {
-        res.status(401);
-    }
-}
-
 async function getTextUser (messages) {
 
     var text = '';
@@ -154,6 +91,4 @@ async function getTextUser (messages) {
 module.exports = {
     verifyToken,
     recivedMessage,
-    sendCode,
-    sendNotify
 }

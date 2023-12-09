@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { parseISO } = require('date-fns');
 
 function getTimeOfDay(){
     let date = new Date()
@@ -18,6 +19,52 @@ function getTimeOfDay(){
     };
 }
 
+function processObj(nameFunction, Obj, objectArguments) {
+
+  if (nameFunction === 'updateCustomerPersonalInformation') {
+      const birthdateString = Obj.birthdate;
+      const birthdateDate = parseISO(birthdateString);
+
+      Obj.birthdate = birthdateDate;
+
+      return Obj;
+
+  } else if (nameFunction === 'findTotalDebtByCustomerNameAndLastname') {
+
+console.log("Obj.data =>" + Obj.data);
+if (Array.isArray(Obj.data)) {
+    console.log("Obj.data[0] =>" + Obj.data[0]);
+    console.log("Obj.data[0].attributes =>" + Obj.data[0].attributes);
+    console.log("Obj.data[0].attributes.paid =>" + Obj.data[0].attributes.paid);
+} else {
+    console.log("Obj.data is not an array");
+}
+
+
+
+    const totalDebt = (Obj.data || []).map(item => {
+      console.log(item.attributes);
+      console.log(item.attributes.totalCost);
+      console.log(item.attributes.paid);
+
+      const totalCost = item.attributes.totalCost || 0;
+      const paid = item.attributes.paid || 0;
+      return totalCost - paid;
+  }).reduce((accumulator, current) => accumulator + current, 0);
+
+
+
+      const response = `${objectArguments.name} ${objectArguments.lastname} adeuda un total de ${totalDebt}$ en ${Obj.data.length} deudas.`;
+
+      console.log(response);
+
+      Obj = { response };
+  }
+
+  // Otros casos o retorno predeterminado
+  return Obj;
+}
+
 async function findCustomerByNameAndLastname(name, lastname) {
   return new Promise((resolve, reject) => {
     
@@ -27,7 +74,7 @@ async function findCustomerByNameAndLastname(name, lastname) {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: `https://strapi-qa-67kr.onrender.com/api/customer-personal-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
+      url: `https://strapi-qa-production.up.railway.app/api/customer-personal-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
 
       headers: {},
     };
@@ -86,8 +133,8 @@ async function strapiRequestUpdate(url, method, headers, data) {
     axios
       .request(config)
       .then((response) => {
-        console.log("Respuesta de Axios =>");
-        console.log(JSON.stringify(response.data));
+        //console.log("Respuesta de Axios =>");
+        //console.log(JSON.stringify(response.data));
         resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
@@ -100,6 +147,7 @@ async function strapiRequestUpdate(url, method, headers, data) {
 
 module.exports = {
     getTimeOfDay,
+    processObj,
     findCustomerByNameAndLastname,
     strapiRequestGet, 
     strapiRequestUpdate
