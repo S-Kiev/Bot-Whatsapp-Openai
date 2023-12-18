@@ -207,7 +207,7 @@ const functionDictionary = [
         },
         "birthdate": {
           "type": "string",
-          "description": `Es el cumpleaños del cliente. Debes establecerlo en este formato: 'AAAA-MM-DDTHH:MM:SS'. Si el ususario no te da indicaciones de minutos o segundos pon 00. Aqui tienes la fecha actual como contexto: ${new Date()}`
+          "description": `Es el cumpleaños del cliente. Debes establecerlo en este formato (datetime): 'AAAA-MM-DDTHH:MM:SS'. Si el ususario no te da indicaciones de minutos o segundos pon 00. Aqui tienes la fecha actual como contexto: ${new Date()}`
         },
         "cellphone": {
           "type": "string",
@@ -374,6 +374,70 @@ const functionDictionary = [
         }
       },
       "required": ["name", "lastname"]
+    }
+  },    
+  {
+    "name": "botCreate",
+    "description": "El usuario te pedira que crees (o agendes) una consulta para un cliente",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string",
+          "description": "Es el nombre del cliente"
+        },
+        "customerLastname": {
+          "type": "string",
+          "description": "Es el apellido del cliente"
+        },
+        "dateSince": {
+          "type": "string",
+          "description": `es el momento que comienza la consulta. Debes establecerlo en este formato (datetime): 'AAAA-MM-DDTHH:MM:SS'. Si el ususario no te da indicaciones de minutos o segundos pon 00. Si no te da indicacion de dia que sea el dia de hoy. Aqui tienes la fecha actual como contexto: ${new Date()}`,
+        },
+        "dateUntil": {
+          "type": "string",
+          "description": `es el momento que finaliza la consulta. Debes establecerlo en este formato (datetime): 'AAAA-MM-DDTHH:MM:SS'. Si el ususario no te da indicaciones de minutos o segundos pon 00. Si no te da indicacion de dia que sea el dia de hoy. Aqui tienes la fecha actual como contexto: ${new Date()}`,
+        },
+        "treatments": {
+          "type": "array",
+          "description": "son los nombres de los tratamientos, como en una consulta un cliente puede solicitar mas de un tratamiento nesecito que me los agrupes como un array con sus nombres",
+          "items": {
+            "type": "string"
+          }
+        },
+        "consultingRoomName": {
+          "type": "string",
+          "description": "Es el nombre del consultorio en el cual se agendara la consulta"
+        }
+        //ctx.request.body.comments y  ctx.request.body.extraConsultingRoomName ???
+      },
+      "required": ["customerName", "customerLastname", "dateSince", "dateUntil", "treatments", "consultingRoomName"]
+    }
+  },    
+  {
+    "name": "cancelConsultation",
+    "description": "El usuario te pedira cancelar una consulta para un cliente",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "customerName": {
+          "type": "string",
+          "description": "Es el nombre del cliente"
+        },
+        "customerLastname": {
+          "type": "string",
+          "description": "Es el apellido del cliente"
+        },
+        "dateSince": {
+          "type": "string",
+          "description": `es el inicio dia de la consulta, el inicio del dia simpre sera desde las 00:00, por ejemplo "2023-12-06T00:00:00Z". Debes establecerlo en este formato (datetime): 'AAAA-MM-DDTHH:MM:SS'. el usuario puede darte la fecha exacta o podria referirse al dia de mañana, dentro de 3 dias, la semana proxima; para deducir cuando seria aqui tienes la fecha actual como contexto: ${new Date()}`,
+        },
+        "dateUntil": {
+          "type": "string",
+          "description": `es el final del dia de la consulta, el final del dia simpre sera las 23:59, por ejemplo "2023-12-06T23:59:59Z". Debes establecerlo en este formato (datetime): 'AAAA-MM-DDTHH:MM:SS'. el usuario puede darte la fecha exacta o podria referirse al dia de mañana, dentro de 3 dias, la semana proxima; para deducir cuando seria aqui tienes la fecha actual como contexto: ${new Date()}`,
+        }
+      },
+      "required": ["customerName", "customerLastname", "dateSince", "dateUntil"]
     }
   }
 ]

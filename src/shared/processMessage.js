@@ -5,11 +5,15 @@ const chatGPT_Service = require('../services/chatGPT-Service');
 const { queryPineconeAndQueryGPT } = require('../services/embeddings/langchain/PineCone/queryPineconeAndQueryGPT');
 const { runCallFunctions } = require('../services/call-functions/callChatGPTWithFunctions');
 
-const utilityFunctions = require('../services/call-functions/utils/utilityFunctions');
-const { runFunctionsInSecondCall } = require('../services/call-functions/utils/runFunctionsInSecondCall');
-
 
 async function processMessage(textUser, number) {
+
+
+    console.log("processMessage");
+    console.log("textUser => " + textUser);
+    console.log("number => " + number);
+
+
 
     textUser = textUser.toLowerCase();
     var models = [];
@@ -48,7 +52,8 @@ async function processMessage(textUser, number) {
     */
     //#region CON 
 
-    if (textUser.includes('consulta')){
+    if (textUser.includes('pregunta')){
+
 
         const resultChatGPTWithEmbeddings = await queryPineconeAndQueryGPT(textUser);
 
@@ -57,14 +62,13 @@ async function processMessage(textUser, number) {
             models.push(model);
         }
         else {
-            console.log('1');
             var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
             models.push(model);
         }
 
     } else if (textUser.includes('quiero')){
 
-        const resultChatGPTWithFunctions = await runCallFunctions(textUser);
+        const resultChatGPTWithFunctions = await runCallFunctions(textUser, number);
 
         console.log(resultChatGPTWithFunctions);
         

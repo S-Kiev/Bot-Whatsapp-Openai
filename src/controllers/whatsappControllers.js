@@ -15,21 +15,20 @@ const verifyToken = (req, res) =>{
         var challenge = req.query["hub.challenge"];
 
 
-
         if (challenge != null && token != null && token == accessToken) {
             res.send(challenge);
         } else {
             res.status(400).send();
         }
+
     } catch (error) {
         res.status(400).send();
     }
 }
 
 async function recivedMessage (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     try {
-    
     var entry = (req.body['entry'])[0];
     var changes = (entry['changes'])[0];
     var value = changes['value'];
@@ -42,8 +41,6 @@ async function recivedMessage (req, res) {
         var text = await getTextUser(messages);
 
         if (text != '') {
-            console.log(text);
-            console.log(number);
 
             await process.processMessage(text, number);
         } 
@@ -83,7 +80,7 @@ async function getTextUser (messages) {
     else {
         text = 'tipo de mensaje no valido';
     }
-    console.log(text);
+    //console.log(text);
     return text;
 }
 

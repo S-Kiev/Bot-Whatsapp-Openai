@@ -19,7 +19,7 @@ function getTimeOfDay(){
     };
 }
 
-function processObj(nameFunction, Obj, objectArguments) {
+function processObj(nameFunction, Obj, objectArguments, number) {
 
   if (nameFunction === 'updateCustomerPersonalInformation') {
       const birthdateString = Obj.birthdate;
@@ -32,15 +32,13 @@ function processObj(nameFunction, Obj, objectArguments) {
   } else if (nameFunction === 'findTotalDebtByCustomerNameAndLastname') {
 
 console.log("Obj.data =>" + Obj.data);
-if (Array.isArray(Obj.data)) {
-    console.log("Obj.data[0] =>" + Obj.data[0]);
-    console.log("Obj.data[0].attributes =>" + Obj.data[0].attributes);
-    console.log("Obj.data[0].attributes.paid =>" + Obj.data[0].attributes.paid);
-} else {
-    console.log("Obj.data is not an array");
-}
-
-
+    if (Array.isArray(Obj.data)) {
+        console.log("Obj.data[0] =>" + Obj.data[0]);
+        console.log("Obj.data[0].attributes =>" + Obj.data[0].attributes);
+        console.log("Obj.data[0].attributes.paid =>" + Obj.data[0].attributes.paid);
+    } else {
+        console.log("Obj.data no es un array");
+    }
 
     const totalDebt = (Obj.data || []).map(item => {
       console.log(item.attributes);
@@ -51,8 +49,6 @@ if (Array.isArray(Obj.data)) {
       const paid = item.attributes.paid || 0;
       return totalCost - paid;
   }).reduce((accumulator, current) => accumulator + current, 0);
-
-
 
       const response = `${objectArguments.name} ${objectArguments.lastname} adeuda un total de ${totalDebt}$ en ${Obj.data.length} deudas.`;
 
@@ -119,7 +115,7 @@ async function strapiRequestGet(url, method, headers) {
   });
 }
 
-async function strapiRequestUpdate(url, method, headers, data) {
+async function strapiRequestUpdateAndCreate(url, method, headers, data) {
   return new Promise((resolve, reject) => {
 
     let config = {
@@ -138,7 +134,7 @@ async function strapiRequestUpdate(url, method, headers, data) {
         resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
         reject(error);
       });
   });
@@ -150,5 +146,5 @@ module.exports = {
     processObj,
     findCustomerByNameAndLastname,
     strapiRequestGet, 
-    strapiRequestUpdate
+    strapiRequestUpdateAndCreate
 }

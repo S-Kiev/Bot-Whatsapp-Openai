@@ -1,5 +1,6 @@
 const { OpenAI } = require('openai');
 const openai = new OpenAI({
+    apiKey: `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`
 });
 const { functionDictionary } = require('./functionDictionary');
 

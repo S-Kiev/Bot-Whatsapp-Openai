@@ -6,12 +6,13 @@ const utilityFunctions = require('./utils/utilityFunctions');
 const { runFunctionsInSecondCall } = require('./utils/runFunctionsInSecondCall');
 
 const openai = new OpenAI({
+  apiKey: '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'
 });
 
 
-async function runCallFunctions (userText) {
+async function runCallFunctions (userText, number) {
 
-  console.log("LLEGO A RUNCALL FUNCTIONS")
+  console.log("LLEGO A RUNCALL FUNCTIONS");
  
     const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo-0613',
@@ -287,23 +288,100 @@ console.log(response.choices[0].message.function_call.name);
       }
     }
 
+    // CREATE
+    //quiero que canceles la consulta para Emilio Perez, el 14 de febrero de 2024 de 16 a 17 horas. Se realizaran los siguientes tratamientos: Lo que haga el melashade ('Lo que haga el melashade' asi es el nombre del tratamiento) y masajes. Agendala en la Sala de Melashade
+    else if (nameFunction === 'botCreate'){
+      //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
+      url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/botCreate');
+      method = 'post';
+      headers = {
+        'Content-Type': 'application/json',
+      };
+      // Solucionar la autorizacion
+      //'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+    }
 
+    //quiero que canceles la consulta de Emilio Perez del 6 de diciembre
+    else if (nameFunction === 'cancelConsultation'){
+      //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
+      url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/cancelConsultation');
+      method = 'put';
+      headers = {
+        'Content-Type': 'application/json',
+      };
+      // Solucionar la autorizacion
+      //'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+    }
+
+    console.log("objectArguments => ");
+    console.log(objectArguments);
+    console.log(JSON.stringify(objectArguments));
 
     //*************** */
     if (method === 'get') {
+
       try {
         Obj = await utilityFunctions.strapiRequestGet(url, method, headers);
       } catch (error) {
         console.error("Error al obtener el objeto:", error);
       }
+
     }
-    else if (method === 'put') {
+
+    //Hay puts que requieren el number para identificar al usuario y otros no
+    else if (method === 'put' && nameFunction !== 'cancelConsultation') {
 
       try {
-        Obj = await utilityFunctions.strapiRequestUpdate(url, method, headers, data);
+        Obj = await utilityFunctions.strapiRequestUpdateAndCreate(url, method, headers, data);
       } catch (error) {
         console.error("Error al actualizar el objeto:", error);
       }
+
+    }
+    else if (method === 'put' && nameFunction === 'cancelConsultation') {
+      try {
+
+        data = {
+          userNumber: number,
+          ...objectArguments
+        };
+
+        console.log("data => ");
+
+        console.log(JSON.stringify(data));
+
+        Obj = await utilityFunctions.strapiRequestUpdateAndCreate(url, method, headers, data);
+
+        console.log("Obj => ");
+
+        console.log(JSON.stringify(Obj));
+
+      } catch (error) {
+        console.error("Error al actualizar el objeto:", error);
+      }
+
+    }
+
+    else if (method === 'post'){
+      try {
+
+        data = {
+          userNumber: number,
+          ...objectArguments
+        };
+
+        console.log("url => " + url);
+        console.log("method => " + method);
+        console.log("headers => " + JSON.stringify(headers));
+        console.log("data => " + JSON.stringify(data));
+
+
+        Obj  = await utilityFunctions.strapiRequestUpdateAndCreate(url, method, headers, data);
+
+      } catch (error) {
+        console.error("Error al crear la consulta:", error);
+      }
+
     }
 
     //PROCESS OBJ
