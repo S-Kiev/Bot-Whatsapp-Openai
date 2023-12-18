@@ -5,9 +5,7 @@ const { functionDictionary } = require('./utils/functionDictionary');
 const utilityFunctions = require('./utils/utilityFunctions');
 const { runFunctionsInSecondCall } = require('./utils/runFunctionsInSecondCall');
 
-const openai = new OpenAI({
-  apiKey: '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'
-});
+const openai = new OpenAI({});
 
 
 async function runCallFunctions (userText, number) {
@@ -304,7 +302,8 @@ console.log(response.choices[0].message.function_call.name);
     //quiero que canceles la consulta de Emilio Perez del 6 de diciembre
     else if (nameFunction === 'cancelConsultation'){
       //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
-      url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/cancelConsultation');
+      url = 'http://localhost:1337/api/consultation/cancelConsultation';
+      //process.env.STRAPI_BACKEND_HOST + ('/api/consultation/cancelConsultation');
       method = 'put';
       headers = {
         'Content-Type': 'application/json',
