@@ -302,8 +302,7 @@ console.log(response.choices[0].message.function_call.name);
     //quiero que canceles la consulta de Emilio Perez del 6 de diciembre
     else if (nameFunction === 'cancelConsultation'){
       //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
-      url = 'http://localhost:1337/api/consultation/cancelConsultation';
-      //process.env.STRAPI_BACKEND_HOST + ('/api/consultation/cancelConsultation');
+      url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/cancelConsultation');
       method = 'put';
       headers = {
         'Content-Type': 'application/json',
