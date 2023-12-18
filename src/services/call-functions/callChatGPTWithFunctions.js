@@ -289,7 +289,7 @@ console.log(response.choices[0].message.function_call.name);
     }
 
     // CREATE
-    //quiero que canceles la consulta para Emilio Perez, el 14 de febrero de 2024 de 16 a 17 horas. Se realizaran los siguientes tratamientos: Lo que haga el melashade ('Lo que haga el melashade' asi es el nombre del tratamiento) y masajes. Agendala en la Sala de Melashade
+    //quiero que canceles la consulta para Emilio Perez, el 14 de febrero de 2024 de 16 a 17 horas. 
     else if (nameFunction === 'botCreate'){
       //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
       url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/botCreate');
