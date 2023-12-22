@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { parseISO } = require('date-fns');
+const { config } = require('dotenv');
 
 function getTimeOfDay(){
     let date = new Date()
@@ -21,15 +22,7 @@ function getTimeOfDay(){
 
 function processObj(nameFunction, Obj, objectArguments, number) {
 
-  if (nameFunction === 'updateCustomerPersonalInformation') {
-      const birthdateString = Obj.birthdate;
-      const birthdateDate = parseISO(birthdateString);
-
-      Obj.birthdate = birthdateDate;
-
-      return Obj;
-
-  } else if (nameFunction === 'findTotalDebtByCustomerNameAndLastname') {
+   if (nameFunction === 'findTotalDebtByCustomerNameAndLastname') {
 
 console.log("Obj.data =>" + Obj.data);
     if (Array.isArray(Obj.data)) {
@@ -61,36 +54,7 @@ console.log("Obj.data =>" + Obj.data);
   return Obj;
 }
 
-async function findCustomerByNameAndLastname(name, lastname) {
-  return new Promise((resolve, reject) => {
-    
-    name  = name.replace(/\s/g, "%20");
-    lastname = lastname.replace(/\s/g, "%20");
-
-    let config = {
-      method: 'get',
-      maxBodyLength: Infinity,
-      url: `https://strapi-qa-production.up.railway.app/api/customer-personal-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`,
-
-      headers: {},
-    };
-
-    console.log(config.url);
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log("Respuesta de Axios =>");
-        console.log(JSON.stringify(response.data));
-        resolve(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-        reject(error);
-      });
-  });
-}
-
+/*
 async function strapiRequestGet(url, method, headers) {
   return new Promise((resolve, reject) => {
 
@@ -139,12 +103,40 @@ async function strapiRequestUpdateAndCreate(url, method, headers, data) {
       });
   });
 }
+*/
+
+async function strapiRequest(url, method, headers, data) {
+  return new Promise((resolve, reject) => {
+
+    let config = {
+      method: method,
+      maxBodyLength: Infinity,
+      url: url,
+      headers: headers,
+    };
+
+    if ( data !== null ){
+      config = {
+        ...config,
+        data: data
+      }
+    }
+
+    axios
+      .request(config)
+      .then((response) => {
+        resolve(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        //console.log(error);
+        reject(error);
+      });
+  });
+}
 
 
 module.exports = {
     getTimeOfDay,
     processObj,
-    findCustomerByNameAndLastname,
-    strapiRequestGet, 
-    strapiRequestUpdateAndCreate
+    strapiRequest
 }

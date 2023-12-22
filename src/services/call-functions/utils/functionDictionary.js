@@ -409,7 +409,6 @@ const functionDictionary = [
           "type": "string",
           "description": "Es el nombre del consultorio en el cual se agendara la consulta"
         }
-        //ctx.request.body.comments y  ctx.request.body.extraConsultingRoomName ???
       },
       "required": ["customerName", "customerLastname", "dateSince", "dateUntil", "treatments", "consultingRoomName"]
     }

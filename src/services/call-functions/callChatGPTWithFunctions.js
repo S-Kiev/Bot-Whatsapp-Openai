@@ -2,7 +2,7 @@ const { OpenAI } = require('openai');
 
 
 const { functionDictionary } = require('./utils/functionDictionary');
-const utilityFunctions = require('./utils/utilityFunctions');
+const { processObj, strapiRequest } = require('./utils/utilityFunctions');
 const { runFunctionsInSecondCall } = require('./utils/runFunctionsInSecondCall');
 
 const openai = new OpenAI({});
@@ -157,7 +157,7 @@ console.log(response.choices[0].message.function_call.name);
 
       url = process.env.STRAPI_BACKEND_HOST + (`/api/customer-personal-informations?filters[name][$eqi]=${name}&filters[lastname][$eqi]=${lastname}`);
 
-      const customerResponse  = await utilityFunctions.strapiRequestGet( url, method, headers );
+      const customerResponse  = await strapiRequest( url, method, headers );
       const customer = JSON.parse(customerResponse).data[0];
 
       console.log("Id del cliente =>" + customer.id);
@@ -191,7 +191,7 @@ console.log(response.choices[0].message.function_call.name);
       
       url = process.env.STRAPI_BACKEND_HOST + (`/api/customer-payments?populate=*&filters[customer][name][$eqi]=${name}&filters[customer][lastname][$eqi]=${lastname}&sort[0]=createdAt:desc&pagination[limit]=1`);
 
-      const customerResponse  = await utilityFunctions.strapiRequestGet( url, method, headers );
+      const customerResponse  = await strapiRequest( url, method, headers );
       const customer = JSON.parse(customerResponse).data[0];
 
       console.log("Id del cliente =>" + customer.id);
@@ -225,7 +225,7 @@ console.log(response.choices[0].message.function_call.name);
       
       url = process.env.STRAPI_BACKEND_HOST + (`/api/customer-medical-informations?populate=*&filters[customer][name][$eqi]=${name}&filters[customer][lastname][$eqi]=${lastname}`);
 
-      const customerResponse  = await utilityFunctions.strapiRequestGet( url, method, headers );
+      const customerResponse  = await strapiRequest( url, method, headers );
       const customer = JSON.parse(customerResponse).data[0];
 
       console.log("Id del cliente =>" + customer.id);
@@ -259,7 +259,7 @@ console.log(response.choices[0].message.function_call.name);
       
       url = process.env.STRAPI_BACKEND_HOST + (`/api/measurements-customers?populate=*&filters[customer][name][$eqi]=${name}&filters[customer][lastname][$eqi]=${lastname}`);
 
-      const customerResponse  = await utilityFunctions.strapiRequestGet( url, method, headers );
+      const customerResponse  = await strapiRequest( url, method, headers );
       const customer = JSON.parse(customerResponse).data[0];
 
       console.log("Id del cliente =>" + customer.id);
@@ -287,16 +287,15 @@ console.log(response.choices[0].message.function_call.name);
     }
 
     // CREATE
-    //quiero que canceles la consulta para Emilio Perez, el 14 de febrero de 2024 de 16 a 17 horas. 
+    //quiero que agendes una consulta para Emilio Perez para el 20 de diciembre de 14 a 16 horas, se realizaran estos tratamientos: masajes y Lo que haga el melashade ("Lo que haga el melashade" es el nombre del tratamiento). eN Sala de Melashade
     else if (nameFunction === 'botCreate'){
       //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
       url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/botCreate');
       method = 'post';
       headers = {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
       };
-      // Solucionar la autorizacion
-      //'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
     }
 
     //quiero que canceles la consulta de Emilio Perez del 6 de diciembre
@@ -306,9 +305,8 @@ console.log(response.choices[0].message.function_call.name);
       method = 'put';
       headers = {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
       };
-      // Solucionar la autorizacion
-      //'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
     }
 
     console.log("objectArguments => ");
@@ -319,7 +317,7 @@ console.log(response.choices[0].message.function_call.name);
     if (method === 'get') {
 
       try {
-        Obj = await utilityFunctions.strapiRequestGet(url, method, headers);
+        Obj = await strapiRequest(url, method, headers);
       } catch (error) {
         console.error("Error al obtener el objeto:", error);
       }
@@ -330,7 +328,7 @@ console.log(response.choices[0].message.function_call.name);
     else if (method === 'put' && nameFunction !== 'cancelConsultation') {
 
       try {
-        Obj = await utilityFunctions.strapiRequestUpdateAndCreate(url, method, headers, data);
+        Obj = await strapiRequest(url, method, headers, data);
       } catch (error) {
         console.error("Error al actualizar el objeto:", error);
       }
@@ -348,7 +346,7 @@ console.log(response.choices[0].message.function_call.name);
 
         console.log(JSON.stringify(data));
 
-        Obj = await utilityFunctions.strapiRequestUpdateAndCreate(url, method, headers, data);
+        Obj = await strapiRequest(url, method, headers, data);
 
         console.log("Obj => ");
 
@@ -374,7 +372,7 @@ console.log(response.choices[0].message.function_call.name);
         console.log("data => " + JSON.stringify(data));
 
 
-        Obj  = await utilityFunctions.strapiRequestUpdateAndCreate(url, method, headers, data);
+        Obj  = await strapiRequest(url, method, headers, data);
 
       } catch (error) {
         console.error("Error al crear la consulta:", error);
@@ -383,7 +381,7 @@ console.log(response.choices[0].message.function_call.name);
     }
 
     //PROCESS OBJ
-    Obj = utilityFunctions.processObj(nameFunction, JSON.parse(Obj), objectArguments);
+    Obj = processObj(nameFunction, JSON.parse(Obj), objectArguments);
 
     if (Obj === undefined) {
       Obj = {
