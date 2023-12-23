@@ -131,7 +131,20 @@ async function strapiRequest(url, method, headers, data) {
         resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
-        console.error(error);  // Puedes imprimir el error para depurar si es necesario
+        console.error("error => "); 
+        console.error(error);
+        console.error("error.response.data =>"); 
+        console.error(error.response.data); 
+
+        console.error("error.response =>"); 
+        console.error(error.response); 
+        console.error("error.response.data =>"); 
+        console.error(error.response.data); 
+        console.error("error.response.data.message =>"); 
+        console.error(error.response.data.message); 
+
+
+
 
         if (error.response && error.response.data && error.response.data.message) {
           resolve({
