@@ -161,14 +161,15 @@ async function strapiRequest(url, method, headers, data) {
         resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
+
         const statusError = error.response.status;
 
-        if (statusError > 400 && statusError < 499) {
+        if (statusError >= 400 && statusError <= 499) {
           reject({ 
             status: error.response.status, 
             message: `Ups tuve problemas para conseguir la información que me pediste, indicale a mis programadores que tuve un error con este código: ${statusError}`
           });
-        } else if ( statusError > 500 && statusError < 599) {
+        } else if ( statusError >= 500 && statusError <= 599) {
           reject({ 
             status: error.response.status, 
             message: `Ups tuve problemas para conseguir la información que me pediste, parece que el servidor tiene problemas, indicale a mis programadores que tuve un error con este código: ${statusError}`
