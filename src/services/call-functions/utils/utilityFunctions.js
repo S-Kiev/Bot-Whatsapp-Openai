@@ -131,7 +131,18 @@ async function strapiRequest(url, method, headers, data) {
         resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
-        //console.log(error);
+        if (error.response.data.message){
+          resolve({
+            status: error.response.status,
+            message: error.response.data.message,
+          });
+        } else {
+          resolve({
+            status: error.response.status,
+            message: 'Ups parece que algo ha salido mal',
+          });
+        } 
+
         reject(error);
       });
   });

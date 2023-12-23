@@ -374,22 +374,6 @@ console.log(response.choices[0].message.function_call.name);
 
         Obj  = await strapiRequest(url, method, headers, data);
 
-        console.log('-----------------------------------------------------');
-        console.log('Obj => ' + Obj);
-        console.log('-----------------------------------------------------');
-        
-
-        if (Obj === undefined) {
-          Obj = {
-            message: `Obj es undefined`
-          };
-        }
-        if (Obj === null) {
-          Obj = {
-            message: `Obj es null`
-          };
-        }
-
       } catch (error) {
         console.error("Error al crear la consulta:", error);
       }
