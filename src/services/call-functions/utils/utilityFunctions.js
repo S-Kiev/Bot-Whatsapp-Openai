@@ -134,11 +134,6 @@ async function strapiRequest(url, method, headers, data) {
 
         console.error("error.response.data =>"); 
         console.error(error.response.data); 
-
-        console.error("error.response =>"); 
-        console.error(error.response); 
-        console.error("error.response.data =>"); 
-        console.error(error.response.data); 
         console.error("error.response.data.message =>"); 
         console.error(error.response.data.message); 
 
