@@ -374,6 +374,10 @@ console.log(response.choices[0].message.function_call.name);
 
         Obj  = await strapiRequest(url, method, headers, data);
 
+        console.log("Obj => ");
+        console.log(Obj);
+
+
       } catch (error) {
         console.error("Error al crear la consulta:", error);
       }
