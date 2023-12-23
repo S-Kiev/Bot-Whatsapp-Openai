@@ -140,9 +140,13 @@ async function strapiRequest(url, method, headers, data) {
         if (error.response && error.response.data && error.response.data.message) {
         console.error("Va a resolver"); 
 
-          resolve({
+          const message = { 
             message: error.response.data.message,
-          });
+            status : error.response.status
+          };
+
+          resolve(JSON.stringify(message));
+
         } else {
           reject({
             status: error.response ? error.response.status : 'Unknown',
