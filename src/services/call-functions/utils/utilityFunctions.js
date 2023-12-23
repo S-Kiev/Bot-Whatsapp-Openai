@@ -103,7 +103,7 @@ async function strapiRequestUpdateAndCreate(url, method, headers, data) {
       });
   });
 }
-*/
+
 
 async function strapiRequest(url, method, headers, data) {
   return new Promise((resolve, reject) => {
@@ -114,9 +114,6 @@ async function strapiRequest(url, method, headers, data) {
       url: url,
       headers: headers,
     };
-
-    console.log("data");
-    console.log(data);
 
     if ( data !== null ){
       config = {
@@ -139,6 +136,54 @@ async function strapiRequest(url, method, headers, data) {
       });
   });
 }
+*/
+
+async function strapiRequest(url, method, headers, data) {
+  return new Promise((resolve, reject) => {
+
+    let config = {
+      method: method,
+      maxBodyLength: Infinity,
+      url: url,
+      headers: headers,
+    };
+
+    if (data !== null) {
+      config = {
+        ...config,
+        data: data
+      }
+    }
+
+    axios
+      .request(config)
+      .then((response) => {
+        resolve(JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        const statusError = error.response.status;
+
+        if (statusError > 400 && statusError < 499) {
+          reject({ 
+            status: error.response.status, 
+            message: `Ups tuve problemas para conseguir la información que me pediste, indicale a mis programadores que tuve un error con este código: ${statusError}`
+          });
+        } else if ( statusError > 500 && statusError < 599) {
+          reject({ 
+            status: error.response.status, 
+            message: `Ups tuve problemas para conseguir la información que me pediste, parece que el servidor tiene problemas, indicale a mis programadores que tuve un error con este código: ${statusError}`
+          });
+        } else {
+          reject({
+            status: error.response.status, 
+            message: `Ups tuve problemas para conseguir la información que me pediste, indicale a mis programadores que tuve un error con este código: ${statusError}`,
+            error: error
+          });
+        }
+      });
+  });
+}
+
 
 
 module.exports = {
