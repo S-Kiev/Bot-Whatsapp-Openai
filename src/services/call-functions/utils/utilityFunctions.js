@@ -115,12 +115,18 @@ async function strapiRequest(url, method, headers, data) {
       headers: headers,
     };
 
+    console.log("data");
+    console.log(data);
+
     if ( data !== null ){
       config = {
         ...config,
         data: data
       }
     }
+
+    console.log("data");
+    console.log(data);
 
     axios
       .request(config)

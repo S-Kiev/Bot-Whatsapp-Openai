@@ -175,7 +175,7 @@ console.log(response.choices[0].message.function_call.name);
         method = 'put';
         headers = {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+          'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
         };
       } else {
         console.error("Cliente no encontrado o customerId es undefined");
@@ -209,7 +209,7 @@ console.log(response.choices[0].message.function_call.name);
         method = 'put';
         headers = {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+          'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
         };
       } else {
         console.error("Cliente no encontrado o customerId es undefined");
@@ -243,7 +243,7 @@ console.log(response.choices[0].message.function_call.name);
         method = 'put';
         headers = {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+          'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
         };
       } else {
         console.error("Cliente no encontrado o customerId es undefined");
@@ -278,7 +278,7 @@ console.log(response.choices[0].message.function_call.name);
         method = 'put';
         headers = {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+          'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
         };
       } else {
         console.error("Cliente no encontrado o customerId es undefined");
@@ -294,7 +294,7 @@ console.log(response.choices[0].message.function_call.name);
       method = 'post';
       headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+        'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
       };
     }
 
@@ -305,7 +305,7 @@ console.log(response.choices[0].message.function_call.name);
       method = 'put';
       headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.BOT_STRAPI_KEY}`
+        'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
       };
     }
 
