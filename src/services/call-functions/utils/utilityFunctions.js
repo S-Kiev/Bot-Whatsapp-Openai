@@ -137,15 +137,10 @@ async function strapiRequest(url, method, headers, data) {
         console.error("error.response.data.message =>"); 
         console.error(error.response.data.message); 
 
-
-
-
-
         if (error.response && error.response.data && error.response.data.message) {
         console.error("Va a resolver"); 
 
           resolve({
-            status: error.response.status,
             message: error.response.data.message,
           });
         } else {
