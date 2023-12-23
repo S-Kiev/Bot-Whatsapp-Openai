@@ -132,11 +132,6 @@ async function strapiRequest(url, method, headers, data) {
       })
       .catch((error) => {
 
-        console.error("error.response.data =>"); 
-        console.error(error.response.data); 
-        console.error("error.response.data.message =>"); 
-        console.error(error.response.data.message); 
-
         if (error.response && error.response.data && error.response.data.message) {
         console.error("Va a resolver"); 
 
@@ -148,10 +143,13 @@ async function strapiRequest(url, method, headers, data) {
           resolve(JSON.stringify(message));
 
         } else {
-          reject({
-            status: error.response ? error.response.status : 'Unknown',
-            message: 'Ups parece que algo ha salido mal',
-          });
+
+          const message = { 
+            message: 'Ups parece que algo ha salido mal y para ser sincero no se la causa, llama a mis programadores para más información',
+            status : error.response ? error.response.status : 'Unknown'
+          };
+          
+          resolve(JSON.stringify(message));
         }
       });
   });
