@@ -131,8 +131,7 @@ async function strapiRequest(url, method, headers, data) {
         resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
-        console.error("error => "); 
-        console.error(error);
+
         console.error("error.response.data =>"); 
         console.error(error.response.data); 
 
@@ -146,13 +145,16 @@ async function strapiRequest(url, method, headers, data) {
 
 
 
+
         if (error.response && error.response.data && error.response.data.message) {
+        console.error("Va a resolver"); 
+
           resolve({
             status: error.response.status,
             message: error.response.data.message,
           });
         } else {
-          resolve({
+          reject({
             status: error.response ? error.response.status : 'Unknown',
             message: 'Ups parece que algo ha salido mal',
           });
