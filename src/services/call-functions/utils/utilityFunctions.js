@@ -131,19 +131,19 @@ async function strapiRequest(url, method, headers, data) {
         resolve(JSON.stringify(response.data));
       })
       .catch((error) => {
-        if (error.response.data.message){
+        console.error(error);  // Puedes imprimir el error para depurar si es necesario
+
+        if (error.response && error.response.data && error.response.data.message) {
           resolve({
             status: error.response.status,
             message: error.response.data.message,
           });
         } else {
           resolve({
-            status: error.response.status,
+            status: error.response ? error.response.status : 'Unknown',
             message: 'Ups parece que algo ha salido mal',
           });
-        } 
-
-        reject(error);
+        }
       });
   });
 }
