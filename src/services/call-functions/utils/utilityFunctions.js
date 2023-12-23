@@ -103,7 +103,7 @@ async function strapiRequestUpdateAndCreate(url, method, headers, data) {
       });
   });
 }
-
+*/
 
 async function strapiRequest(url, method, headers, data) {
   return new Promise((resolve, reject) => {
@@ -136,8 +136,8 @@ async function strapiRequest(url, method, headers, data) {
       });
   });
 }
-*/
 
+/*
 async function strapiRequest(url, method, headers, data) {
   return new Promise((resolve, reject) => {
 
@@ -184,7 +184,7 @@ async function strapiRequest(url, method, headers, data) {
       });
   });
 }
-
+*/
 
 
 module.exports = {
