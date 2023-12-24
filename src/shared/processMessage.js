@@ -13,7 +13,7 @@ async function processMessage(textUser, number) {
     textUser = textUser.toLowerCase();
     var models = [];
 
-    const cellphoneResponsibleUsers = strapiRequest('https://strapi-qa-production.up.railway.app/api/users-data?fields[0]=cellphone', 'get', {});
+    const cellphoneResponsibleUsers = await strapiRequest('https://strapi-qa-production.up.railway.app/api/users-data?fields[0]=cellphone', 'get', {});
 
     console.log("cellphoneResponsibleUsers => ");
     console.log(cellphoneResponsibleUsers);
