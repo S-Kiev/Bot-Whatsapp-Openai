@@ -5,18 +5,28 @@ const chatGPT_Service = require('../services/chatGPT-Service');
 const { queryPineconeAndQueryGPT } = require('../services/embeddings/langchain/PineCone/queryPineconeAndQueryGPT');
 const { runCallFunctions } = require('../services/call-functions/callChatGPTWithFunctions');
 
+const { strapiRequest } = require('../services/call-functions/utils/utilityFunctions')
+
 
 async function processMessage(textUser, number) {
 
-
-    console.log("processMessage");
-    console.log("textUser => " + textUser);
-    console.log("number => " + number);
-
-
-
     textUser = textUser.toLowerCase();
     var models = [];
+
+    const cellphoneResponsibleUsers = strapiRequest('https://strapi-qa-production.up.railway.app/api/users-data?fields[0]=cellphone', 'get', {});
+
+    console.log("cellphoneResponsibleUsers => ");
+    console.log(cellphoneResponsibleUsers);
+    console.log("cellphoneResponsibleUsers.includes(number) => ");
+    console.log(cellphoneResponsibleUsers.includes(number));
+
+
+    if (cellphoneResponsibleUsers.includes(number)) {
+        console.log("Estas autorizado");
+    } else {
+        var model = whatsappModel.messageText("Lo siento pero no estas autorizado a interactuar con el Bot", number);
+        models.push(model);
+    }
 
     //#region MODELO BASICO DE BOT SIN IA
     /*

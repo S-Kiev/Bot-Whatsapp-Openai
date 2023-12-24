@@ -20,28 +20,27 @@ function getTimeOfDay(){
     };
 }
 
-function processObj(nameFunction, Obj, objectArguments, number) {
+function processObj(nameFunction, Obj, objectArguments) {
 
    if (nameFunction === 'findTotalDebtByCustomerNameAndLastname') {
 
-console.log("Obj.data =>" + Obj.data);
-    if (Array.isArray(Obj.data)) {
-        console.log("Obj.data[0] =>" + Obj.data[0]);
-        console.log("Obj.data[0].attributes =>" + Obj.data[0].attributes);
-        console.log("Obj.data[0].attributes.paid =>" + Obj.data[0].attributes.paid);
-    } else {
-        console.log("Obj.data no es un array");
-    }
+      if (Array.isArray(Obj.data)) {
+          console.log("Obj.data[0] =>" + Obj.data[0]);
+          console.log("Obj.data[0].attributes =>" + Obj.data[0].attributes);
+          console.log("Obj.data[0].attributes.paid =>" + Obj.data[0].attributes.paid);
+      } else {
+          console.log("Obj.data no es un array");
+      }
 
-    const totalDebt = (Obj.data || []).map(item => {
-      console.log(item.attributes);
-      console.log(item.attributes.totalCost);
-      console.log(item.attributes.paid);
+      const totalDebt = (Obj.data || []).map(item => {
+        console.log(item.attributes);
+        console.log(item.attributes.totalCost);
+        console.log(item.attributes.paid);
 
-      const totalCost = item.attributes.totalCost || 0;
-      const paid = item.attributes.paid || 0;
-      return totalCost - paid;
-  }).reduce((accumulator, current) => accumulator + current, 0);
+        const totalCost = item.attributes.totalCost || 0;
+        const paid = item.attributes.paid || 0;
+        return totalCost - paid;
+    }).reduce((accumulator, current) => accumulator + current, 0);
 
       const response = `${objectArguments.name} ${objectArguments.lastname} adeuda un total de ${totalDebt}$ en ${Obj.data.length} deudas.`;
 
@@ -50,60 +49,20 @@ console.log("Obj.data =>" + Obj.data);
       Obj = { response };
   }
 
-  // Otros casos o retorno predeterminado
+  /*
+  //Aparentemente strapi acepta que los parametros sean strings => de ser asi esta parte no seria nesesaria
+  else if (nameFunction === 'updateMeasurementsCustomer') {
+
+    //parsear a float los argumentos
+    Obj.highWaist = !isNaN(parseFloat(Obj.highWaist)) ? parseFloat(Obj.highWaist) : Obj.highWaist;
+    Obj.mean = !isNaN(parseFloat(Obj.mean)) ? parseFloat(Obj.mean) : Obj.mean;
+    Obj.navelLine = parseFloat(Obj.navelLine) ? parseFloat(Obj.navelLine) :  Obj.navelLine;
+    Obj.lowerBelly = parseFloat(Obj.lowerBelly) ? parseFloat(Obj.lowerBelly) : Obj.lowerBelly;
+  }
+  */
+
   return Obj;
 }
-
-/*
-async function strapiRequestGet(url, method, headers) {
-  return new Promise((resolve, reject) => {
-
-    let config = {
-      method: method,
-      maxBodyLength: Infinity,
-      url: url,
-      headers: headers,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log("Respuesta de Axios =>");
-        console.log(JSON.stringify(response.data));
-        resolve(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-        reject(error);
-      });
-  });
-}
-
-async function strapiRequestUpdateAndCreate(url, method, headers, data) {
-  return new Promise((resolve, reject) => {
-
-    let config = {
-      method: method,
-      maxBodyLength: Infinity,
-      url: url,
-      headers: headers,
-      data: data
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        //console.log("Respuesta de Axios =>");
-        //console.log(JSON.stringify(response.data));
-        resolve(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        //console.log(error);
-        reject(error);
-      });
-  });
-}
-*/
 
 async function strapiRequest(url, method, headers, data) {
   return new Promise((resolve, reject) => {
@@ -148,61 +107,12 @@ async function strapiRequest(url, method, headers, data) {
             message: 'Ups parece que algo ha salido mal y para ser sincero no se la causa, llama a mis programadores para más información',
             status : error.response ? error.response.status : 'Unknown'
           };
-          
+
           resolve(JSON.stringify(message));
         }
       });
   });
 }
-
-/*
-async function strapiRequest(url, method, headers, data) {
-  return new Promise((resolve, reject) => {
-
-    let config = {
-      method: method,
-      maxBodyLength: Infinity,
-      url: url,
-      headers: headers,
-    };
-
-    if (data !== null) {
-      config = {
-        ...config,
-        data: data
-      }
-    }
-
-    axios
-      .request(config)
-      .then((response) => {
-        resolve(JSON.stringify(response.data));
-      })
-      .catch((error) => {
-
-        const statusError = error.response.status;
-
-        if (statusError >= 400 && statusError <= 499) {
-          reject({ 
-            status: error.response.status, 
-            message: `Ups tuve problemas para conseguir la información que me pediste, indicale a mis programadores que tuve un error con este código: ${statusError}`
-          });
-        } else if ( statusError >= 500 && statusError <= 599) {
-          reject({ 
-            status: error.response.status, 
-            message: `Ups tuve problemas para conseguir la información que me pediste, parece que el servidor tiene problemas, indicale a mis programadores que tuve un error con este código: ${statusError}`
-          });
-        } else {
-          reject({
-            status: error.response.status, 
-            message: `Ups tuve problemas para conseguir la información que me pediste, indicale a mis programadores que tuve un error con este código: ${statusError}`,
-            error: error
-          });
-        }
-      });
-  });
-}
-*/
 
 
 module.exports = {

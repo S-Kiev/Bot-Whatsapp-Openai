@@ -357,20 +357,20 @@ const functionDictionary = [
           "description": "Es el apellido del cliente"
         },
         "highWaist": {
-          "type": "integer",
-          "description": "es el alto de la ciuntura de el cliente, simepre en metros. Ejemplo 1 metro 50cm o 150cm, serian 1.5"
+          "type": "string",
+          "description": "es el alto de la ciuntura de el cliente. Debes expresarlo en metros con dos cifras despues de un punto; por ejemplo un metro y medio serian 1.50, u 80 centrimetros serian 0.80. Es importante mantener este formato pues este string sera parseado a float posteriormente"
         },
         "mean": {
-          "type": "integer",
-          "description": "Es la media del cliente, simepre en centrimetros. Ejemplo 1 metro 50cm o 150cm, serian 1.5"
+          "type": "string",
+          "description": "Es la media del cliente. Debes expresarlo en metros con dos cifras despues de un punto; por ejemplo un metro y medio serian 1.50, u 80 centrimetros serian 0.80. Es importante mantener este formato pues este string sera parseado a float posteriormente"
         },
         "navelLine": {
-          "type": "integer",
-          "description": "Es la linea del ombligo del cliente, simepre en centrimetros. Ejemplo 1 metro 50cm o 150cm, serian 1.5"
+          "type": "string",
+          "description": "Es la linea del ombligo del cliente. Debes expresarlo en metros con dos cifras despues de un punto; por ejemplo un metro y medio serian 1.50, u 80 centrimetros serian 0.80. Es importante mantener este formato pues este string sera parseado a float posteriormente"
         },
         "lowerBelly": {
-          "type": "integer",
-          "description": "Es la medida del vientre bajo del cliente, simepre en centrimetros. Ejemplo 1 metro 50cm o 150cm, serian 1.50"
+          "type": "string",
+          "description": "Es la medida del vientre bajo del cliente. Debes expresarlo en metros con dos cifras despues de un punto; por ejemplo un metro y medio serian 1.50, u 80 centrimetros serian 0.80. Es importante mantener este formato pues este string sera parseado a float posteriormente"
         }
       },
       "required": ["name", "lastname"]
