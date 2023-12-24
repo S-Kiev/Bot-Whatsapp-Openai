@@ -20,9 +20,54 @@ async function processMessage(textUser, number) {
     console.log("cellphoneResponsibleUsers.includes(number) => ");
     console.log(cellphoneResponsibleUsers.includes(number));
 
-
+    //Solo los numeros de las colaboradoras podran acceder al asistente virtual
     if (cellphoneResponsibleUsers.includes(number)) {
         console.log("Estas autorizado");
+
+        // "pregunta" es la palabra clave para ingresar al flujo de los embeddings
+        if (textUser.includes('pregunta')){
+
+            const resultChatGPTWithEmbeddings = await queryPineconeAndQueryGPT(textUser);
+    
+            if(resultChatGPTWithEmbeddings != null){
+                var model = whatsappModel.messageText(resultChatGPTWithEmbeddings, number);
+                models.push(model);
+            }
+            else {
+                var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
+                models.push(model);
+            }
+    
+        // "quiero" es la palabra clave para ingresar al flujo de las call funtions
+        } else if (textUser.includes('quiero')){
+    
+            const resultChatGPTWithFunctions = await runCallFunctions(textUser, number);
+    
+            console.log(resultChatGPTWithFunctions);
+            
+            if(resultChatGPTWithFunctions != null){
+                var model = whatsappModel.messageText(resultChatGPTWithFunctions, number);
+                models.push(model);
+            }
+            else {
+                var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
+                models.push(model);
+            }
+            
+        } else {
+            
+            const resultChatGPT = await chatGPT_Service.getMessageChatGPT(textUser);
+    
+            if(resultChatGPT != null){
+                var model = whatsappModel.messageText(resultChatGPT, number);
+                models.push(model);
+            }
+            else {
+                var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
+                models.push(model);
+            }
+        }
+
     } else {
         var model = whatsappModel.messageText("Lo siento pero no estas autorizado a interactuar con el Bot", number);
         models.push(model);
@@ -61,50 +106,6 @@ async function processMessage(textUser, number) {
     //#endregion
     */
     //#region CON 
-
-    if (textUser.includes('pregunta')){
-
-
-        const resultChatGPTWithEmbeddings = await queryPineconeAndQueryGPT(textUser);
-
-        if(resultChatGPTWithEmbeddings != null){
-            var model = whatsappModel.messageText(resultChatGPTWithEmbeddings, number);
-            models.push(model);
-        }
-        else {
-            var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
-            models.push(model);
-        }
-
-    } else if (textUser.includes('quiero')){
-
-        const resultChatGPTWithFunctions = await runCallFunctions(textUser, number);
-
-        console.log(resultChatGPTWithFunctions);
-        
-        if(resultChatGPTWithFunctions != null){
-            var model = whatsappModel.messageText(resultChatGPTWithFunctions, number);
-            models.push(model);
-        }
-        else {
-            var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
-            models.push(model);
-        }
-        
-    } else {
-        
-        const resultChatGPT = await chatGPT_Service.getMessageChatGPT(textUser);
-
-        if(resultChatGPT != null){
-            var model = whatsappModel.messageText(resultChatGPT, number);
-            models.push(model);
-        }
-        else {
-            var model = whatsappModel.messageText("Lo siento pero parece que algo ha salido mal, intentalo mas tarde", number);
-            models.push(model);
-        }
-    }
-    
 
     
     //#endregion
