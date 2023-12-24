@@ -12,7 +12,7 @@ function sendMessageWhatsapp(data) {
         body: data,
         headers: {
             'Content-Type' : 'application/json',
-            Authorization: `Bearer EAAzZBUjbVc9QBOZC6lOKrqp0HPZBkrgRO9FZCbHMyY8eC1u56VHy7aqnYTR4962ZCZAtM9zlQNkc0RFj8iOEEl8dV9UK7nTxa8ZAvg63mOCOqwKxDLlO1zjuFV953ZA8fRIKiy7EsVSvBA2bXZBMghT1BX8bH7KKYnhzArHHhlEO3I1flzTWTDJEhGgNC9prZAQnhA`
+            'Authorization': `Bearer ${process.env.WHATSAPP_CLOUD_API_KEY}`
         }
     };
 

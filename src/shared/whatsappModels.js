@@ -14,6 +14,22 @@ function messageText(textResponse, number) {
     return data;
 };
 
+function messageSticker(number) {
+    const data = JSON.stringify(
+        {
+            "messaging_product": "whatsapp",    
+            "to": number,
+            "type": "sticker",
+            "sticker": {
+                "link": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmystickermania.com%2Fsticker-packs%2Fbugs-bunny%2Fbugs-bunnys-no-meme&psig=AOvVaw0Q4iGYizABb0SF01c-GwyA&ust=1703538084187000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNiey4X8qIMDFQAAAAAdAAAAABAX",
+                "caption": "No autorizado"
+            }
+        }
+    );
+
+    return data;
+};
+
 function messageList(number) {
     
     const data = JSON.stringify(
