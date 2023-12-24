@@ -21,7 +21,7 @@ function messageSticker(number) {
             "to": number,
             "type": "sticker",
             "sticker": {
-                "link": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fmystickermania.com%2Fsticker-packs%2Fbugs-bunny%2Fbugs-bunnys-no-meme&psig=AOvVaw0Q4iGYizABb0SF01c-GwyA&ust=1703538084187000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNiey4X8qIMDFQAAAAAdAAAAABAX",
+                "link": "https://img-09.stickers.cloud/packs/86a1dfad-0e5f-495a-bb2c-430ab11e0416/webp/de25a6ca-9ed3-4f78-8c7c-38bbe185d895.webp",
                 "caption": "No autorizado"
             }
         }
@@ -147,5 +147,6 @@ module.exports = {
     messageText,
     messageList,
     messageButtons,
-    messageLocation
+    messageLocation,
+    messageSticker
 };

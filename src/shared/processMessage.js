@@ -69,7 +69,9 @@ async function processMessage(textUser, number) {
         }
 
     } else {
+        var sticker = whatsappModel.messageSticker(number);
         var model = whatsappModel.messageText("Lo siento pero no estas autorizado a interactuar con el Bot", number);
+        models.push(sticker);
         models.push(model);
     }
 
