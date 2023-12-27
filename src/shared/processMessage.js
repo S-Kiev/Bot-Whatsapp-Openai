@@ -70,7 +70,7 @@ async function processMessage(textUser, number) {
         }
 
     } else {
-        sendStickerMessage(number);
+        await sendStickerMessage(number);
         var model = whatsappModel.messageText("Lo siento pero no estas autorizado a interactuar con el Bot", number);
         models.push(model);
     }
