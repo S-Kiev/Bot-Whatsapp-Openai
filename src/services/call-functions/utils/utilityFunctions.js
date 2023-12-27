@@ -64,6 +64,37 @@ function processObj(nameFunction, Obj, objectArguments) {
   return Obj;
 }
 
+async function sendStickerMessage(number) {
+  let data = JSON.stringify({
+    "messaging_product": "whatsapp",
+    "to": number,
+    "type": "sticker",
+    "sticker": {
+      //Ver un JSON con stikers
+      "link": "https://img-09.stickers.cloud/packs/86a1dfad-0e5f-495a-bb2c-430ab11e0416/webp/de25a6ca-9ed3-4f78-8c7c-38bbe185d895.webp"
+    }
+  });
+  
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: 'https://graph.facebook.com/v17.0/146235795241755/messages',
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Authorization': `Bearer ${process.env.WHATSAPP_CLOUD_API_KEY}`
+    },
+    data : data
+  };
+  
+  axios.request(config)
+  .then((response) => {
+    console.log(JSON.stringify(response.data));
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
 async function strapiRequest(url, method, headers, data) {
   return new Promise((resolve, reject) => {
 
@@ -118,5 +149,6 @@ async function strapiRequest(url, method, headers, data) {
 module.exports = {
     getTimeOfDay,
     processObj,
-    strapiRequest
+    strapiRequest,
+    sendStickerMessage
 }

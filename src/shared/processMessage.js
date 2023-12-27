@@ -5,7 +5,8 @@ const chatGPT_Service = require('../services/chatGPT-Service');
 const { queryPineconeAndQueryGPT } = require('../services/embeddings/langchain/PineCone/queryPineconeAndQueryGPT');
 const { runCallFunctions } = require('../services/call-functions/callChatGPTWithFunctions');
 
-const { strapiRequest } = require('../services/call-functions/utils/utilityFunctions')
+const { strapiRequest } = require('../services/call-functions/utils/utilityFunctions');
+const { sendStickerMessage } = require('../services/call-functions/utils/utilityFunctions')
 
 
 async function processMessage(textUser, number) {
@@ -69,9 +70,8 @@ async function processMessage(textUser, number) {
         }
 
     } else {
-        var sticker = whatsappModel.messageSticker(number);
+        sendStickerMessage(number);
         var model = whatsappModel.messageText("Lo siento pero no estas autorizado a interactuar con el Bot", number);
-        models.push(sticker);
         models.push(model);
     }
 
