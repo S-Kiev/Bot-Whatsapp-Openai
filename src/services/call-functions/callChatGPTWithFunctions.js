@@ -16,6 +16,10 @@ async function runCallFunctions (userText, number) {
         model: 'gpt-3.5-turbo-0613',
         "messages": [
             {
+              "role": "system",
+              "content": "Tu nombre es Lulu, eres un bot asistente de una clinica estetica-medica que brinda varios tratamientos. Eres muy util y profesional ayudando a los miebros de la clinica a buscar información, actualizarla y agendar consultas"
+            },
+            {
                "role": "user",
                "content": userText
             }
@@ -81,7 +85,7 @@ console.log(response.choices[0].message.function_call.name);
       url = process.env.STRAPI_BACKEND_HOST + (`/api/customer-payments?populate=*&filters[customer][name][$eqi]=${name}&filters[customer][lastname][$eqi]=${lastname}&sort[0]=createdAt:desc&pagination[limit]=1`);
     }
 
-        //quiero saber como se encunetra el estado de pagos de Emilio Perez
+        //quiero saber cuanto debe en total Emilio Perez
         else if (nameFunction === 'findTotalDebtByCustomerNameAndLastname') {
 
           const name  = objectArguments.name.replace(/\s/g, "%20");

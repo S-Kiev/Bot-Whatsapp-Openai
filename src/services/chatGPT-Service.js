@@ -10,8 +10,15 @@ async function getMessageChatGPT (text) {
       try {
         const chatCompletion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
-            messages: [{ "role": "user", "content": text }],
-            //max_tokens : ?
+            messages: [
+              {
+                "role": "system",
+                "content": "Tu nombre es Lulu, eres un bot asistente de una clinica estetica-medica que brinda varios tratamientos. Eres muy util y profesional ayudando a los miebros de la clinica a buscar información, actualizarla y agendar consultas"
+              },
+              { "role": "user", 
+                 "content": text 
+              }
+            ],
         });
 
         

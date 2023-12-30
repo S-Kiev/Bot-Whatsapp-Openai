@@ -14,22 +14,6 @@ function messageText(textResponse, number) {
     return data;
 };
 
-function messageSticker(number) {
-    const data = JSON.stringify(
-        {
-            "messaging_product": "whatsapp",    
-            "to": number,
-            "type": "sticker",
-            "sticker": {
-                "link": "https://img-09.stickers.cloud/packs/86a1dfad-0e5f-495a-bb2c-430ab11e0416/webp/de25a6ca-9ed3-4f78-8c7c-38bbe185d895.webp",
-                "caption": "No autorizado"
-            }
-        }
-    );
-
-    return data;
-};
-
 function messageList(number) {
     
     const data = JSON.stringify(
@@ -148,5 +132,4 @@ module.exports = {
     messageList,
     messageButtons,
     messageLocation,
-    messageSticker
 };
