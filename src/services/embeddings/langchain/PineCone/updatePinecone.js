@@ -18,27 +18,27 @@ async function updatePinecone () {
   const docs = await loader.load();
 
   console.log("Recuperando datos del inidice de Pinecone...");
-// 3. Retrieve Pinecone index
+// 3. Recuperar el índice Pinecone
   const index = client.Index(process.env.PINECONE_INDEX_NAME);
-// 4. Log the retrieved index name
+// 4. Registrar el nombre del índice recuperado
   console.log(`indice recuperado: ${process.env.PINECONE_INDEX_NAME}`);
-// 5. Process each document in the docs array
+// 5. Procesa cada documento del array
   for (const doc of docs) {
     console.log(`Procesando documentos: ${doc.metadata.source}`);
     const txtPath = doc.metadata.source;
     const text = doc.pageContent;
-// 6. Create RecursiveCharacterTextSplitter instance
+// 6. Crear una instancia de RecursiveCharacterTextSplitter
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
     });
     console.log("Cortando texto en fragmentos...");
-// 7. Split text into chunks (documents)
+// 7. Dividir texto en fragmentos (chunks)
     const chunks = await textSplitter.createDocuments([text]);
     console.log(`Textos divididos en ${chunks.length} fragmentos`);
     console.log(
       `Llamado al endpoint de Embeddings de OpenAI para vectorizar los ${chunks.length} fragmentos...`
     );
-// 8. Create OpenAI embeddings for documents
+// 8. Crear los embeddings de OpenAI para los fragmentos del docuemnto
     const embeddingsArrays = await new OpenAIEmbeddings({
         openAIApiKey: process.env.OPENAI_API_KEY,
     }).embedDocuments(
@@ -48,7 +48,7 @@ async function updatePinecone () {
     console.log(
       `Se han creado ${chunks.length} vectores con id, valores, y metadata...`
     );
-// 9. Create and upsert vectors in batches of 100
+// 9. Crear y reinsertar vectores en lotes de 100
     const batchSize = 100;
     let batch = [];
     for (let idx = 0; idx < chunks.length; idx++) {
@@ -64,18 +64,18 @@ async function updatePinecone () {
         },
       };
       batch.push(vector);
-      // When batch is full or it's the last item, upsert the vectors
+      // Cuando el lote está lleno o es el último elemento, inserta los vectores
       if (batch.length === batchSize || idx === chunks.length - 1) {
         await index.upsert({
           upsertRequest: {
             vectors: batch,
           },
         });
-        // Empty the batch
+        // Vaciar el lote
         batch = [];
       }
     }
-// 10. Log the number of vectors updated
+// 10. Registrar el número de vectores actualizados
     console.log(`indice de Pinecone creado con ${chunks.length} vectores`);
   }
 };

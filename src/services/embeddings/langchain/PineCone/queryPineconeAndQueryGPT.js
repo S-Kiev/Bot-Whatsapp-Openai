@@ -1,4 +1,4 @@
-// 1. Import required modules
+// 1. Importar módulos necesarios
 const { OpenAIEmbeddings } = require('langchain/embeddings/openai');
 const { OpenAI } = require('langchain/llms/openai');
 const { loadQAStuffChain } = require('langchain/chains');
@@ -8,26 +8,26 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-// 2. Export the questionPineconeVectorStoreAndquestionLLM function
+// 2. Declarar la función queryPineconeAndQueryGPT
 async function queryPineconeAndQueryGPT ( textUser ) {
 
   const question = textUser;
 
   const client = await pineconeClient();
 
-// 3. Start question process
-  console.log("questioning the Pinecone vector database...");
+// 3. Iniciar el proceso de preguntas
+  console.log("consultando a la base de datos vectorial de Pinecone...");
   console.log(client);
 
-// 4. Retrieve the Pinecone index
+// 4. Recuperar el índice Pinecone
   const index = client.Index(process.env.PINECONE_INDEX_NAME);
 
-// 5. Create question embedding
+// 5. Generar los embeddings de la consulta del usuario
   const queryEmbedding = await new OpenAIEmbeddings({
     openAIApiKey: process.env.OPENAI_API_KEY,
   }).embedQuery( question );
 
-// 6. question Pinecone index and return top 10 matches
+// 6. consultar el índice Pinecone y retornar las 10 primeras coincidencias
   let queryResponse = await index.query({
     queryRequest: {
       topK: 10,
@@ -38,12 +38,12 @@ async function queryPineconeAndQueryGPT ( textUser ) {
   });
 
   console.log(queryResponse);
-// 7. Log the number of matches 
-  console.log(`Were found ${queryResponse.matches.length} matches...`);
-// 8. Log the textUser  being asked
-  console.log(`Making an question: ${question }...`);
+// 7. Registrar el número de coincidencias
+  console.log(`Se han encontrado ${queryResponse.matches.length} coincidencias...`);
+// 8. Mostrando la consulta del usuario
+  console.log(`Realizando la pregunta: ${question }...`);
   if (queryResponse.matches.length) {
-// 9. Create an OpenAI instance and load the QAStuffChain
+// 9. Crear una instancia de OpenAI y cargar la QAStuffChain
 
     const llm = new OpenAI({ 
         openAIApiKey: process.env.OPENAI_API_KEY,
@@ -51,32 +51,28 @@ async function queryPineconeAndQueryGPT ( textUser ) {
 
     const chain = loadQAStuffChain(llm);
 
-// 10. Extract and concatenate page content from matched documents
+// 10. Extraer y concatenar el contenido de las páginas de los documentos cotejados
     const concatenatedPageContent = queryResponse.matches
       .map((match) => match.metadata.pageContent)
       .join(" ");
 
     console.log(concatenatedPageContent);
 
-// 11. Execute the chain with input documents and textUser 
+// 11. Ejecutar la cadena (chain) con documentos de entrada y textUser
     const result = await chain.call({
       input_documents: [new Document({ pageContent: concatenatedPageContent })],
       question : question,
     });
-// 12. Log the answer
+// 12. Retornar la respuesta
 
     console.log(result.text);
     return result.text;
   } else {
-// 13. Log that there are no matches, so GPT-3 will not be queried
-    return "I'm sorry but there is no match to my knowledge base, I don't have an answer.";
+// 13. Si no hay coincidencias retornar una respuesta concreta, por lo que no se consultará GPT-3 y se ahorrara el llamdo al API
+    return "Lo siento pero no coincide con mi base de conocimientos, no tengo respuesta para este caso";
   }
 };
 
 module.exports = {
   queryPineconeAndQueryGPT
 }
-
-//(async () => {
-// await queryPineconeAndQueryGPT('Quien es la dueña de la clinica?');
-//})();

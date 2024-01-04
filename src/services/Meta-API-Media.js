@@ -8,7 +8,7 @@ async function getUrlMedia(idAudio) {
     maxBodyLength: Infinity,
     url: `https://graph.facebook.com/v18.0/${idAudio}/`,
     headers: { 
-      'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
+      'Authorization': `Bearer ${process.env.WHATSAPP_CLOUD_API_KEY}`
     }
   };
   
@@ -29,7 +29,7 @@ async function getBinaryAudio(url) {
       url: url,
       responseType: 'arraybuffer',
       headers: {
-        'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
+        'Authorization': `Bearer ${process.env.WHATSAPP_CLOUD_API_KEY}`
       }
     };
   

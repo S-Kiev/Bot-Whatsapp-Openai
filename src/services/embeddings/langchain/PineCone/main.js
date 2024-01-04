@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-// 7. Set up DirectoryLoader to load documents from the ./documents directory
+// 7. Configurar DirectoryLoader para cargar documentos del directorio "../../PDFs"
 
 async function main(question){
 
@@ -19,12 +19,11 @@ async function main(question){
         ".pdf": (path) => new PDFLoader(path),
     });
     const docs = await loader.load();
-    // 8. Set up variables for the filename, question, and index settings
-    //const question = "que tratamientos brinda la clinica?";
+    // 8. Configurar variables para los ajustes de nombre de archivo, pregunta e índice
     
     const indexName = "clinica";
     const vectorDimension = 1536;
-    // 9. Initialize Pinecone client with API key and environment
+    // 9. Inicializar el cliente Pinecone con la clave API y el entorno
 
     console.log(process.env.PINECONE_API_KEY);
     console.log(process.env.PINECONE_ENVIROMENT);
@@ -36,20 +35,21 @@ async function main(question){
     });
 
     console.log(client);
-    // 10. Run the main async function
+    // 10. Ejecutar la función asíncrona main
 
-    // 11. Check if Pinecone index exists and create if necessary
+    // En Desarrollo
+    // 11. Comprobar si existe el índice Pinecone y crearlo si es necesario
       await createPineconeIndex(client, indexName, vectorDimension);
-    // 12. Update Pinecone vector store with document embeddings
+
+    // En Desarrollo
+    // 12. Actualizar la base de datos vectorial de Pinecone con los embeddings de los documentos
       await updatePinecone(client, indexName, docs);
-    // 13. Query Pinecone vector store and GPT model for an answer
+
+    // En Produccion
+    // 13. Consultar el almacénla base de datos vectorial de Pinecone y el modelo GPT para obtener una respuesta
       await queryPineconeVectorStoreAndQueryLLM(client, indexName, question);
 }
 
 module.exports={
   main
 }
-
-//(async () => {
-//  await askModelWithEmbeddigs('Quien es la dueña de la clinica?');
-//})();

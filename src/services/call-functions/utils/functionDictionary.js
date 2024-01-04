@@ -186,6 +186,24 @@ const functionDictionary = [
       },
       "required": ["name", "lastname"]
     }
+  },    
+  {
+    "name": "findConsultationsByDay",
+    "description": `El usuario te pedira encontrar las consultas de un dia particular, ten encuenta que puede referirse al dia de ayer, hoy, mañana o a una fecha especifica; aqui tienes la fecha actual: ${new Date}`,
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "dateSince": {
+          "type": "string",
+          "description": `el inicio del dia simpre sera desde las 00:00:00, si el usuario te dice "la consulta del 6 de diciembre de 2023" este es el resultado esperado: "2023-12-06T00:00:00Z". El usuario puede referirse al dia de mañana, dentro de 3 dias, la semana proxima; para deducir cuando seria aqui tienes la fecha actual como contexto: ${new Date()}`,
+        },
+        "dateUntil": {
+          "type": "string",
+          "description": `el final del dia simpre sera las 23:59:59, si el usuario te dice "la consulta del 6 de diciembre de 2023" este es el resultado esperado: "2023-12-06T23:59:59Z". El usuario puede referirse al dia de mañana, dentro de 3 dias, la semana proxima; para deducir cuando seria aqui tienes la fecha actual como contexto: ${new Date()}`,
+        }
+      },
+      "required": ["dateSince", "dateUntil"]
+    }
   },
   {
     "name": "updateCustomerPersonalInformation",

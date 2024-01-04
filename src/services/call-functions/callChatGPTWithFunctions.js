@@ -67,6 +67,12 @@ console.log(response.choices[0].message.function_call.name);
       url = process.env.STRAPI_BACKEND_HOST + (`/api/consultations?populate=*&filters[responsibleUser][name][$eqi]=${name}&filters[responsibleUser][lastname][$eqi]=${lastname}&sort[0]=createdAt:desc&pagination[limit]=1`);
     }
 
+    else if (nameFunction === 'findConsultationsByDay') {
+
+      url = process.env.STRAPI_BACKEND_HOST + (`/api/consultation-consulting-rooms?populate[consultation][populate][0]=customer&populate[consultation][populate][1]=responsibleUser&filters[since][$gte]=${objectArguments.dateSince}&filters[since][$lte]=${objectArguments.dateUntil}`);
+    }
+
+    
     //No funciona aun
     else if (nameFunction === 'findConsultationByCustomerNameAndLastname') {
 
