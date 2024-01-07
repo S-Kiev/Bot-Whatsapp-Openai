@@ -127,7 +127,8 @@ async function getTextUser (messages) {
         console.log("mediaDescription =>");
         console.log(mediaDescription);
 
-        text = mediaDescription;
+        textUser ? text = `El usuario envio una imagen o video con esta consulta ${textUser} y otra IA que analiza imagenes te brinda esta respuesta ${mediaDescription}. Respondele al usuario basado en esa descripcion` : `El usuario envio una imagen o video para saber que hay en ella y otra IA que analiza imagenes te brinda esta descrición: ${mediaDescription}. Respondele al usuario basado en esa descrición`
+        
     }
     else {
         text = 'tipo de mensaje no valido';
