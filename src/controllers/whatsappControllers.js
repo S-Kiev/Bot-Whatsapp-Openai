@@ -121,12 +121,13 @@ async function getTextUser (messages) {
         let binaryMedia = await MetaAPIMedia.getBinaryMedia(url);
         console.log("binaryMedia =>");
         console.log(binaryMedia);
-        /*
+    
         // 4. procesar la imagen a formato png y enviarlo a google
         let mediaDescription = google.geminiImageService(binaryMedia, mediaType, textUser, typeMessage);
+        console.log("mediaDescription =>");
+        console.log(mediaDescription);
 
         text = mediaDescription;
-        */
     }
     else {
         text = 'tipo de mensaje no valido';
