@@ -123,7 +123,7 @@ async function getTextUser (messages) {
         console.log(binaryMedia);
     
         // 4. procesar la imagen a formato png y enviarlo a google
-        let mediaDescription = google.geminiImageService(binaryMedia, mediaType, textUser, typeMessage);
+        let mediaDescription = await google.geminiImageService(binaryMedia, mediaType, textUser, typeMessage);
         console.log("mediaDescription =>");
         console.log(mediaDescription);
 
