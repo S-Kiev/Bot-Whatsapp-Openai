@@ -128,7 +128,11 @@ async function getTextUser (messages) {
         console.log(mediaDescription);
 
         // 5. aqui hay que hacer un pasamanos de la información entre Gemini y ChatGPT, describiendole a gpt el proceso y que debe hacer
-        textUser ? text = `El usuario envio una imagen o video con esta consulta '${textUser}' y otra IA que analiza imagenes te brinda esta respuesta '${mediaDescription}'. Respondele al usuario basado en esa descripcion` : `El usuario envio una imagen o video para saber que hay en ella y otra IA que analiza imagenes te brinda esta descrición: '${mediaDescription}'. Respondele al usuario basado en esa descrición`
+        if(textUser){
+            text = `El usuario envio una imagen o video con esta consulta '${textUser}' y otra IA que analiza imagenes te brinda esta respuesta '${mediaDescription}'. Respondele al usuario basado en esa descripcion`;
+        } else {
+            `El usuario envio una imagen o video para saber que hay en ella y otra IA que analiza imagenes te brinda esta descrición: '${mediaDescription}'. Respondele al usuario basado en esa descrición`;
+        }
         
     }
     else {
