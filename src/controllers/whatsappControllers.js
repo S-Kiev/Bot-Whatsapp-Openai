@@ -3,6 +3,7 @@ const modelMessageWhatsapp = require('../shared/whatsappModels');
 const whatsappService = require('../services/whatsappService');
 const MetaAPIMedia = require('../services/Meta-API-Media');
 const whisper = require('../services/whisper-Service');
+const google = require('../services/GoogleAI-Service');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -60,6 +61,11 @@ async function getTextUser (messages) {
     var text = '';
     var typeMessage = messages['type'];
 
+    console.log("-------------------------------------------------------");
+    console.log("MENSAJE 1 =>");
+    console.log(messages);
+    console.log("-------------------------------------------------------");
+
     if (typeMessage == 'text') {
         text = (messages['text'])['body'];
     }
@@ -74,15 +80,27 @@ async function getTextUser (messages) {
         // 4. procesar el audio a formato ogg y enviarlo a whisper
         let transcription = await whisper.getTranscription(binaryAudio);
 
-        console.log(transcription);
         // 5. obtener y asignar la transcripción del audio
+        console.log(transcription);
         text = transcription
 
     } else if(typeMessage == 'image'){
-        //logica de GEMINI
-        // obtener imagen de la api media
-        // enviala a GEMINI Pro Vision
-        // obtener la respuesta
+       
+        console.log("-------------------------------------------------------");
+        console.log("MENSAJE 2 =>");
+        console.log(messages);
+        console.log("-------------------------------------------------------");
+
+        /*
+        // 1. obtener el id del mensaje de imagen
+        let idImage = (messages['image'])['id'];
+        // 2. Pedir la url del audio en los servidores de Meta
+        let url = await MetaAPIMedia.getUrlMedia(idImage);
+        // 3. Obtener el binario de la imagen
+        let binaryImage = await MetaAPIMedia.getBinaryMedia(url);
+        // 4. procesar la imagen a formato png y enviarlo a google
+        let imageDescription = google.googleImageService(binaryImage);
+        */
     }
     else {
         text = 'tipo de mensaje no valido';
