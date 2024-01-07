@@ -9,15 +9,13 @@ const openai = new OpenAI({});
 
 
 async function runCallFunctions (userText, number) {
-
-  console.log("LLEGO A RUNCALL FUNCTIONS");
  
     const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo-0613',
         "messages": [
             {
               "role": "system",
-              "content": "Tu nombre es Lulu, eres un bot asistente de una clinica estetica-medica que brinda varios tratamientos. Eres muy util y profesional ayudando a los miebros de la clinica a buscar información, actualizarla y agendar consultas"
+              "content": "Tu nombre es Alicia, eres un bot asistente de una clinica estetica-medica que brinda varios tratamientos. Eres muy util, simpatica y profesional ayudando a los miebros de la clinica a buscar información, actualizarla y agendar consultas; simplemente eres una más del equipo de la clinica"
             },
             {
                "role": "user",
@@ -67,9 +65,10 @@ console.log(response.choices[0].message.function_call.name);
       url = process.env.STRAPI_BACKEND_HOST + (`/api/consultations?populate=*&filters[responsibleUser][name][$eqi]=${name}&filters[responsibleUser][lastname][$eqi]=${lastname}&sort[0]=createdAt:desc&pagination[limit]=1`);
     }
 
+    //quiero que encuentres las consultas que tuve el 25 de diciembre de 2023
     else if (nameFunction === 'findConsultationsByDay') {
 
-      url = process.env.STRAPI_BACKEND_HOST + (`/api/consultation-consulting-rooms?populate[consultation][populate][0]=customer&populate[consultation][populate][1]=responsibleUser&filters[since][$gte]=${objectArguments.dateSince}&filters[since][$lte]=${objectArguments.dateUntil}`);
+      url = process.env.STRAPI_BACKEND_HOST + (`/api/consultation-consulting-rooms?populate[consultation][populate][0]=customer&populate[consultation][populate][1]=responsibleUser&filters[since][$gte]=${objectArguments.dateSince}&filters[since][$lte]=${objectArguments.dateUntil}&filters[consultation][responsibleUser][cellphone][$eq]=${number}`);
     }
 
     

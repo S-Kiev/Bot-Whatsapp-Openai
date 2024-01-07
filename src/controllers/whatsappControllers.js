@@ -65,17 +65,24 @@ async function getTextUser (messages) {
     }
     else if(typeMessage == 'audio'){
 
+        // 1. obtener el id del mensaje de audio
         let idAudio = (messages['audio'])['id'];
-
+        // 2. Pedir la url del audio en los servidores de Meta
         let url = await MetaAPIMedia.getUrlMedia(idAudio);
-
-        let binaryAudio = await MetaAPIMedia.getBinaryAudio(url);
-
+        // 3. Obtener el binario del audio
+        let binaryAudio = await MetaAPIMedia.getBinaryMedia(url);
+        // 4. procesar el audio a formato ogg y enviarlo a whisper
         let transcription = await whisper.getTranscription(binaryAudio);
 
         console.log(transcription);
-
+        // 5. obtener y asignar la transcripción del audio
         text = transcription
+
+    } else if(typeMessage == 'image'){
+        //logica de GEMINI
+        // obtener imagen de la api media
+        // enviala a GEMINI Pro Vision
+        // obtener la respuesta
     }
     else {
         text = 'tipo de mensaje no valido';

@@ -2,11 +2,11 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-async function getUrlMedia(idAudio) {
+async function getUrlMedia(idMedia) {
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: `https://graph.facebook.com/v18.0/${idAudio}/`,
+    url: `https://graph.facebook.com/v18.0/${idMedia}/`,
     headers: { 
       'Authorization': `Bearer ${process.env.WHATSAPP_CLOUD_API_KEY}`
     }
@@ -22,7 +22,7 @@ async function getUrlMedia(idAudio) {
   }
 };
 
-async function getBinaryAudio(url) {
+async function getBinaryMedia(url) {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -44,5 +44,5 @@ async function getBinaryAudio(url) {
 
 module.exports = {
   getUrlMedia,
-  getBinaryAudio
+  getBinaryMedia
 }
