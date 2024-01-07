@@ -85,6 +85,11 @@ async function getTextUser (messages) {
         text = transcription
 
     } else if(typeMessage == 'image'){
+
+        const textUser = messages.image.caption ? messages.image.caption : null;
+
+        console.log("Texto del usuario =>");
+        console.log(textUser);
        
         console.log("-------------------------------------------------------");
         console.log("MENSAJE 2 =>");
