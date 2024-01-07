@@ -84,9 +84,21 @@ async function getTextUser (messages) {
         console.log(transcription);
         text = transcription
 
-    } else if(typeMessage == 'image'){
+    } else if(typeMessage == 'image' || typeMessage == 'video'){
 
-        const textUser = messages.image.caption ? messages.image.caption : null;
+        let textUser;
+        let mediaType;
+
+        if (typeMessage == 'image') {
+            textUser = messages.image.caption ? messages.image.caption : null;
+            mediaType = 'jpeg';
+        }
+
+        if (typeMessage == 'video') {
+            textUser = messages.video.caption ? messages.video.caption : null;
+            mediaType = 'mp4';
+        }
+
 
         console.log("Texto del usuario =>");
         console.log(textUser);
@@ -96,15 +108,24 @@ async function getTextUser (messages) {
         console.log(messages);
         console.log("-------------------------------------------------------");
 
-        /*
+        
         // 1. obtener el id del mensaje de imagen
         let idImage = (messages['image'])['id'];
+        console.log("idImage =>");
+        console.log(idImage);
         // 2. Pedir la url del audio en los servidores de Meta
         let url = await MetaAPIMedia.getUrlMedia(idImage);
-        // 3. Obtener el binario de la imagen
-        let binaryImage = await MetaAPIMedia.getBinaryMedia(url);
+        console.log("url =>");
+        console.log(url);
+        // 3. Obtener el binario de la imagen o video
+        let binaryMedia = await MetaAPIMedia.getBinaryMedia(url);
+        console.log("binaryMedia =>");
+        console.log(binaryMedia);
+        /*
         // 4. procesar la imagen a formato png y enviarlo a google
-        let imageDescription = google.googleImageService(binaryImage);
+        let mediaDescription = google.geminiImageService(binaryMedia, mediaType, textUser, typeMessage);
+
+        text = mediaDescription;
         */
     }
     else {

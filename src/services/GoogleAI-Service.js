@@ -5,13 +5,13 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
-async function googleImageService (binaryImage) {
+async function geminiImageService (binaryMedia, mediaType, textUser, typeMessage) {
 
     try {
-        const tempFilePath = path.join(os.tmpdir(), 'temp_image.png');
+        const tempFilePath = path.join(os.tmpdir(), `temp_media.${mediaType}`);
     
         // Guardar el binario de audio en un archivo temporal
-        await promises.writeFile(tempFilePath, binaryImage);
+        await promises.writeFile(tempFilePath, binaryMedia);
     
         // 1. Configuracion del modelo
         const geminiAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
@@ -20,7 +20,7 @@ async function googleImageService (binaryImage) {
         // 2. Inicializar el modelo
         const model = geminiAI.getGenerativeModel({ model: "gemini-pro-vision", geminiConfig });
     
-        const response = await generateContent(model, tempFilePath);
+        const response = await generateContent(model, tempFilePath, textUser, mediaType, typeMessage);
 
         // Borra el archivo temporal después de usarlo
         await promises?.unlink(tempFilePath);
@@ -37,18 +37,21 @@ async function googleImageService (binaryImage) {
 
 }
 
-async function generateContent(model, tempFilePath) {
+async function generateContent(model, tempFilePath, textUser, mediaType, typeMessage) {
     try {
         // Cargar la imagen a base 64
         const imageData = await promises.readFile(tempFilePath);
         const imageBase64 = imageData.toString('base64');
 
+        //El ususario puede enviar una consulta particular, sino hara una descripcion generica
+        const text = textUser ? textUser : "Describe lo que ves aqui:\n";
+
         // Definir las partes
         const parts = [
-            { text: "Describe lo que hacen las personas en esta imagen:\n" },
+            { text: text },
             {
               inlineData: {
-                mimeType: "image/png",
+                mimeType: `${typeMessage}/${mediaType}`,
                 data: imageBase64
               }
             },
@@ -59,11 +62,11 @@ async function generateContent(model, tempFilePath) {
         const response = await result.response;
         return response.text();
     } catch (error) {
-      console.error('Error generating content:', error);
+      console.error('Error generando el contenido:', error);
       return "Ocurrio un error y no se pudo procesar la imagen"
     }
   }
 
 module.exports ={
-    googleImageService
+  geminiImageService
 }
