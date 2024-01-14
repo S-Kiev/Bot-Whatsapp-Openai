@@ -47,6 +47,7 @@ async function queryPineconeAndQueryGPT ( textUser ) {
 
     const llm = new OpenAI({ 
         openAIApiKey: process.env.OPENAI_API_KEY,
+        modelName: 'gpt-3.5-turbo'
     });
 
     const chain = loadQAStuffChain(llm);
