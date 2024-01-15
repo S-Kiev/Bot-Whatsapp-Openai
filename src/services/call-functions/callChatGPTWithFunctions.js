@@ -10,14 +10,14 @@ const openai = new OpenAI({});
 
 async function runCallFunctions (userText, number) {
 
-  console.log("LLEGO A RUNCALL FUNCTIONS");
+  let response = null;
  
-    const response = await openai.chat.completions.create({
+    response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo-0613',
         "messages": [
             {
               "role": "system",
-              "content": "Tu nombre es Lulu, eres un bot asistente de una clinica estetica-medica que brinda varios tratamientos. Eres muy util y profesional ayudando a los miebros de la clinica a buscar información, actualizarla y agendar consultas"
+              "content": "Tu nombre es Alicia, eres un bot asistente de una clinica estetica-medica que brinda varios tratamientos. Eres muy util y profesional ayudando a los miebros de la clinica a buscar información, actualizarla y agendar consultas"
             },
             {
                "role": "user",
@@ -31,9 +31,9 @@ console.log(response);
 
 console.log(response.choices[0].message.function_call.name);
 
-    if(response.choices[0].finish_reason != "function_call") {
-        console.log(response.choices[0].message.content);
-        return response.choices[0].message.content;
+    if (response.choices[0].finish_reason === "stop") {
+      console.log(response.choices[0].message.content);
+      return response.choices[0].message.content;
     }
 
     
@@ -69,7 +69,7 @@ console.log(response.choices[0].message.function_call.name);
 
     else if (nameFunction === 'findConsultationsByDay') {
 
-      url = process.env.STRAPI_BACKEND_HOST + (`/api/consultation-consulting-rooms?populate[consultation][populate][0]=customer&populate[consultation][populate][1]=responsibleUser&filters[since][$gte]=${objectArguments.dateSince}&filters[since][$lte]=${objectArguments.dateUntil}`);
+      url = process.env.STRAPI_BACKEND_HOST + (`/api/consultation-consulting-rooms?populate[consultation][populate][0]=customer&populate[consultation][populate][1]=responsibleUser&filters[since][$gte]=${objectArguments.dateSince}&filters[since][$lte]=${objectArguments.dateUntil}&filters[consultation][responsibleUser][cellphone][$eq]=${number}`);
     }
 
     
