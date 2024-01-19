@@ -170,16 +170,11 @@ console.log(response.choices[0].message.function_call.name);
       const customerResponse  = await strapiRequest( url, method, headers );
       const customer = JSON.parse(customerResponse).data[0];
 
-      console.log("Id del cliente =>" + customer.id);
      if (customer && customer.id) {
 
         data = {
           data: objectArguments
         }
-
-        console.log("Data =>" + data);
-        console.log("Data =>" + data.data);
-
 
         url = process.env.STRAPI_BACKEND_HOST + (`/api/customer-personal-informations/${customer.id}`);
         method = 'put';
@@ -204,16 +199,11 @@ console.log(response.choices[0].message.function_call.name);
       const customerResponse  = await strapiRequest( url, method, headers );
       const customer = JSON.parse(customerResponse).data[0];
 
-      console.log("Id del cliente =>" + customer.id);
      if (customer && customer.id) {
 
         data = {
           data: objectArguments
         }
-
-        console.log("Data =>" + data);
-        console.log("Data =>" + data.data);
-
 
         url = process.env.STRAPI_BACKEND_HOST + (`/api/customer-payments/${customer.id}`);
         method = 'put';
@@ -245,9 +235,6 @@ console.log(response.choices[0].message.function_call.name);
           data: objectArguments
         }
 
-        console.log("Data =>" + data);
-        console.log("Data =>" + data.data);
-
 
         url = process.env.STRAPI_BACKEND_HOST + (`/api/customer-medical-informations/${customer.id}`);
         method = 'put';
@@ -272,17 +259,11 @@ console.log(response.choices[0].message.function_call.name);
       const customerResponse  = await strapiRequest( url, method, headers );
       const customer = JSON.parse(customerResponse).data[0];
 
-      console.log("Id del cliente =>" + customer.id);
      if (customer && customer.id) {
 
-      console.log(objectArguments);
         data = {
           data: objectArguments
         }
-
-        console.log("Data =>" + data);
-        console.log("Data =>" + data.data);
-
 
         url = process.env.STRAPI_BACKEND_HOST + (`/api/measurements-customers/${customer.id}`);
         method = 'put';
@@ -300,6 +281,10 @@ console.log(response.choices[0].message.function_call.name);
     //quiero que agendes una consulta para Emilio Perez para el 20 de diciembre de 14 a 16 horas, se realizaran estos tratamientos: masajes y Lo que haga el melashade ("Lo que haga el melashade" es el nombre del tratamiento). eN Sala de Melashade
     else if (nameFunction === 'botCreate'){
       //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
+      data = {
+        userNumber: number,
+        ...objectArguments
+      };
       url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/botCreate');
       method = 'post';
       headers = {
@@ -310,7 +295,11 @@ console.log(response.choices[0].message.function_call.name);
 
     //quiero que canceles la consulta de Emilio Perez del 6 de diciembre
     else if (nameFunction === 'cancelConsultation'){
-      //VER SI POST REQUIERE DE ALGUNA OTRA CONFIGURACION
+
+      data = {
+        userNumber: number,
+        ...objectArguments
+      };
       url = process.env.STRAPI_BACKEND_HOST + ('/api/consultation/cancelConsultation');
       method = 'put';
       headers = {
@@ -319,11 +308,22 @@ console.log(response.choices[0].message.function_call.name);
       };
     }
 
-    console.log("objectArguments => ");
-    console.log(objectArguments);
-    console.log(JSON.stringify(objectArguments));
+    else if (nameFunction === 'createPaymentWithGemini'){
 
-    //*************** */
+      data = {
+        data: objectArguments
+      };
+      url = process.env.STRAPI_BACKEND_HOST + ('/api/customer-payments');
+      method = 'post';
+      headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.WHATSAPP_API_TOKEN}`
+      };
+    }
+
+
+    // Despues de hacer las configuraciones nesesarias de axios segun cada call function llamar a Strapi segun el metodo
+
     if (method === 'get') {
 
       try {
@@ -334,34 +334,10 @@ console.log(response.choices[0].message.function_call.name);
 
     }
 
-    //Hay puts que requieren el number para identificar al usuario y otros no
-    else if (method === 'put' && nameFunction !== 'cancelConsultation') {
+    else if (method === 'put') {
 
       try {
         Obj = await strapiRequest(url, method, headers, data);
-      } catch (error) {
-        console.error("Error al actualizar el objeto:", error);
-      }
-
-    }
-    else if (method === 'put' && nameFunction === 'cancelConsultation') {
-      try {
-
-        data = {
-          userNumber: number,
-          ...objectArguments
-        };
-
-        console.log("data => ");
-
-        console.log(JSON.stringify(data));
-
-        Obj = await strapiRequest(url, method, headers, data);
-
-        console.log("Obj => ");
-
-        console.log(JSON.stringify(Obj));
-
       } catch (error) {
         console.error("Error al actualizar el objeto:", error);
       }
@@ -369,32 +345,18 @@ console.log(response.choices[0].message.function_call.name);
     }
 
     else if (method === 'post'){
+
       try {
-
-        data = {
-          userNumber: number,
-          ...objectArguments
-        };
-
-        console.log("url => " + url);
-        console.log("method => " + method);
-        console.log("headers => " + JSON.stringify(headers));
-        console.log("data => " + JSON.stringify(data));
-
-
         Obj  = await strapiRequest(url, method, headers, data);
-
-        console.log("Obj => ");
-        console.log(Obj);
-
-
       } catch (error) {
         console.error("Error al crear la consulta:", error);
       }
 
     }
 
+
     //PROCESS OBJ
+    // Solo para hacer la sumatoria de la deuda total del cliente
     Obj = processObj(nameFunction, JSON.parse(Obj), objectArguments);
 
     if (Obj === undefined) {

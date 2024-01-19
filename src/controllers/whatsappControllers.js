@@ -3,6 +3,7 @@ const modelMessageWhatsapp = require('../shared/whatsappModels');
 const whatsappService = require('../services/whatsappService');
 const MetaAPIMedia = require('../services/Meta-API-Media');
 const whisper = require('../services/whisper-Service');
+const google = require('../services/GoogleAI-Service');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -69,7 +70,7 @@ async function getTextUser (messages) {
 
         let url = await MetaAPIMedia.getUrlMedia(idAudio);
 
-        let binaryAudio = await MetaAPIMedia.getBinaryAudio(url);
+        let binaryAudio = await MetaAPIMedia.getBinaryMedia(url);
 
         let transcription = await whisper.getTranscription(binaryAudio);
 
@@ -77,6 +78,37 @@ async function getTextUser (messages) {
 
         text = transcription
     }
+
+    else if (typeMessage == 'image' || typeMessage == 'video'){
+
+        let textUser;
+        let mediaType;
+
+        if (typeMessage == 'image') {
+            textUser = messages.image.caption ? messages.image.caption : null;
+            mediaType = 'jpeg';
+        }
+
+        if (typeMessage == 'video') {
+            textUser = messages.video.caption ? messages.video.caption : null;
+            mediaType = 'mp4';
+        }
+
+        
+        // 1. obtener el id del mensaje de imagen
+        let idImage = (messages['image'])['id'];
+        // 2. Pedir la url del audio en los servidores de Meta
+        let url = await MetaAPIMedia.getUrlMedia(idImage);
+        // 3. Obtener el binario de la imagen o video
+        let binaryMedia = await MetaAPIMedia.getBinaryMedia(url); 
+        // 4. procesar la imagen a formato png y enviarlo a google
+        let mediaDescription = await google.geminiImageService(binaryMedia, mediaType, textUser, typeMessage);
+
+        mediaDescription = mediaDescription.includes('factura') ? `Quiero facturar, aqui tienes la información \n\n ${mediaDescription}` : `Hola soy Gemini, y aqui te paso la descripción de una imagen que me paso el usuario: \n\n ${mediaDescription}`;
+
+        text = mediaDescription;
+
+    } 
     else {
         text = 'tipo de mensaje no valido';
     }

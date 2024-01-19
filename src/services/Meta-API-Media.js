@@ -22,7 +22,7 @@ async function getUrlMedia(idAudio) {
   }
 };
 
-async function getBinaryAudio(url) {
+async function getBinaryMedia(url) {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
@@ -44,5 +44,5 @@ async function getBinaryAudio(url) {
 
 module.exports = {
   getUrlMedia,
-  getBinaryAudio
+  getBinaryMedia
 }

@@ -456,6 +456,37 @@ const functionDictionary = [
       },
       "required": ["customerName", "customerLastname", "dateSince", "dateUntil"]
     }
+  },    
+  {
+    "name": "createPaymentWithGemini",
+    "description": "El usuario o Gemini te dira que necesita creear una factura",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "consultation": {
+          "type": "int",
+          "description": "Es el id/número de la consulta"
+        },
+        "customer": {
+          "type": "int",
+          "description": "Es el id/número del cliente"
+        },
+        "totalCost": {
+          "type": "int",
+          "description": "Es el costo total de la factura"
+        },
+        "paid": {
+          "type": "int",
+          "description": "Es el monto abonado/pagado por el cliente"
+        },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["total", "partial", "pending"],
+          "description": "Es el estado de pagos de la factura, el usuario te lo dira en español. es un enum con valores posibles: total (cuando se ha pagado el total de la factura), partial (cuando es pacial y no se ha abonado el 100%) y pending (cuando esta pendiente porque el cliente ha abonado 0)"
+        }
+      },
+      "required": ["consultation", "customer", "totalCost", "paid", "paymentStatus"]
+    }
   }
 ]
 
