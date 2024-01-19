@@ -468,15 +468,15 @@ const functionDictionary = [
           "description": "Es el id/número de la consulta"
         },
         "customer": {
-          "type": "int",
+          "type": "number",
           "description": "Es el id/número del cliente"
         },
         "totalCost": {
-          "type": "int",
+          "type": "number",
           "description": "Es el costo total de la factura"
         },
         "paid": {
-          "type": "int",
+          "type": "number",
           "description": "Es el monto abonado/pagado por el cliente"
         },
         "paymentStatus": {
