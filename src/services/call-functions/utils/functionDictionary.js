@@ -464,7 +464,7 @@ const functionDictionary = [
       "type": "object",
       "properties": {
         "consultation": {
-          "type": "int",
+          "type": "number",
           "description": "Es el id/número de la consulta"
         },
         "customer": {
